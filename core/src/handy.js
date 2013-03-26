@@ -6,10 +6,13 @@ define(function(require, exports, module) {
     var Class = require('class');
     var Handy = Class.create({
         Implements:[ Util ],
-        init:function(callback){
+        use:function(app,options,callback){
             var that = this;
-            "function" == that.typeOf(callback) && callback.call(that);
-            return that;
+            seajs.use(app,function(App){
+                options.context = that;
+                that.app = new App(options);
+                "function" == that.typeOf(callback) && callback.call(that);
+            });
         },
         initialize:function(options){
             var that = this;
@@ -20,5 +23,5 @@ define(function(require, exports, module) {
             return that;
         }
     });
-    module.exports = Handy;
+    module.exports = new Handy();
 });

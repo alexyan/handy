@@ -27,8 +27,16 @@ AP._PageVar_ = AP._PageVar_ || {};
 		<h1><img alt="Alipay" src="https://i.alipayobjects.com/e/201302/2F9uXmFQZ3.png" width="70" height="24"/></h1>
 	</div>
 	<div data-role="content" class="ui-content">	
-		<form>
+		<form name="creditCardForm">
 			<fieldset>
+				<div class="ui-field-input ">
+					<input type="text" id="cardNo" value="" placeholder="银行卡号"  class="s-cardNoFormat"/>
+					<div class="ui-field-icon"><span class="ui-icon"></span></div></div>
+					<div class="ui-field-error-message"></div>
+            	</div>
+		        <div class="ui-button ui-button-submit">
+		          	<button type="submit">确定</button>
+		        </div>
 			</fieldset>
 		</form>	
 	</div>
@@ -40,14 +48,44 @@ seajs.config({
     alias: {
     }
 });
-seajs.use([],function(){
-	seajs.use('http://assets.p76.alipay.net/handy/core/0.9.0/handy',function(Handy){
-		var handy = new Handy({
-	        a:1,b:2
-	    }).init(function(){
-	        var that = this;
-	        console.log($H({a:1}));
-	    });
+/**
+ * seajs.use("handy",function(handy){
+ *   handy.use("cashier",function(Cashier){
+ *   	...
+ *   })
+ * });
+ *
+ * Handy
+ * |____ Reset
+ * |____ Util
+ * |____ PageVar
+ * |____ ...
+ * |____ App
+ */
+seajs.use('http://assets.p76.alipay.net/handy/core/0.9.0/handy',function(Handy){
+	Handy.use("http://assets.p76.alipay.net/wap/cashier/1.0.0/gatewayCreditCardPayment",{
+		formOptions:{
+            validatorOptions:{
+                element:'form[name="creditCardForm"]',
+			    itemClass: 'ui-field',
+			    explainClass: 'ui-field-error-message',
+			    itemHoverClass: 'ui-field-hover',
+			    itemFocusClass: 'ui-field-focus',
+			    itemErrorClass: 'ui-field-error',
+                items:[{
+                    element: '#cardNo',
+                    display: '卡号',
+                    required: true,
+                    errormessageRequired:'卡号不能为空。',
+                    errormessageNumber:'卡号只能输入数字。',
+                    errormessageMinlength:'卡号长度必须在10到24位以内。',
+                    errormessageMaxlength:'卡号长度必须在10到24位以内。',
+                    rule: 'numberT minlengthT{min:10} maxlengthT{max:24}'
+                }]                
+            }
+        }
+	},function(){
+		//console.log('callback');
 	});
 });
 </script>

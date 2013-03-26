@@ -1,0 +1,19 @@
+{
+  "name": "base",
+  "version": "0.9.0",
+  "root": "handy",
+  "description": "移动Web开发的基础样式和脚本",
+  "homepage": "",
+  "author": "Alex",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:alexyan/handy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexyan/handy/issues"
+  },
+  "license": "MIT",
+  "tests": ["base"],
+  "output": {
+  }
+}

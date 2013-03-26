@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,11 +36,19 @@ AP._PageVar_ = AP._PageVar_ || {};
 </div>
 <script type="text/javascript" charset="utf-8">
 seajs.config({
+	base:'http://assets.p76.alipay.net',
     alias: {
     }
 });
-seajs.use([],function($,_,ExTools){
-
+seajs.use([],function(){
+	seajs.use('http://assets.p76.alipay.net/handy/core/0.9.0/handy',function(Handy){
+		var handy = new Handy({
+	        a:1,b:2
+	    }).init(function(){
+	        var that = this;
+	        console.log($H({a:1}));
+	    });
+	});
 });
 </script>
 </body>

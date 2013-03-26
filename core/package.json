@@ -2,7 +2,7 @@
   "name": "core",
   "version": "0.9.0",
   "root": "handy",
-  "description": "移动Web开发的基础样式和脚本",
+  "description": "",
   "homepage": "",
   "author": "Alex",
   "repository": {
@@ -12,9 +12,16 @@
   "bugs": {
     "url": "https://github.com/alexyan/handy/issues"
   },
+  "dependencies": {
+      "class"         : "arale/class/1.0.0/class",
+      "events"        : "arale/events/1.0.0/events",
+      "json"          : "gallery/json/1.0.2/json",
+      "store"         : "gallery/store/1.3.6/store"
+  },  
   "license": "MIT",
-  "tests": ["core"],
   "output": {
-    "base/base.js":["./base/base.js"]
+    "util/util.js":["./util/util.js"],
+    "reset/reset.js":["./reset/reset.js"],
+    "handy.js":["./handy.js"]
   }
 }

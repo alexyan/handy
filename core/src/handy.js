@@ -5,7 +5,7 @@ define(function(require, exports, module) {
     var Class = require('class');
     var Handy = Class.create({
         Implements:[ Util ],
-        use:function(app,options,callback){
+        app:function(app,options,callback){
             var that = this;
             seajs.use(app,function(App){
                 options.context = that;

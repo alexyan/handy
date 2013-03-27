@@ -64,7 +64,7 @@ seajs.config({
  * |____ App
  */
 seajs.use(['Handy'],function(Handy){
-	Handy.use("http://assets.p76.alipay.net/wap/cashier/1.0.0/gatewayCreditCardPayment",{
+	Handy.app("http://assets.p76.alipay.net/wap/cashier/1.0.0/gatewayCreditCardPayment",{
 		formOptions:{
             validatorOptions:{
                 element:'form[name="creditCardForm"]',
@@ -87,7 +87,7 @@ seajs.use(['Handy'],function(Handy){
         }
 	},function(){
 		var that = this;
-		console.log(_);
+		console.log([1,2,3]);
 	});
 });
 </script>

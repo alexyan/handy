@@ -25,8 +25,6 @@ define(function(require, exports, module) {
             }
             return item instanceof object;
         };      
-
-
         // Function overloading
         var Function = global.Function;
         var enumerables = true;
@@ -298,14 +296,11 @@ define(function(require, exports, module) {
         String.extend('uniqueID', function(){
             return (UID++).toString(36);
         });
-
-
         var Hash = global.Hash = new Type('Hash', function(object){
             if (typeOf(object) == 'hash') object = Object.clone(object.getClean());
             for (var key in object) this[key] = object[key];
             return this;
         });
-
         Hash.implement({
             forEach: function(fn, bind){
                 Object.forEach(this, fn, bind);
@@ -325,7 +320,6 @@ define(function(require, exports, module) {
                 return length;
             }
         });
-
         Hash.alias('each', 'forEach');
         Object.type = Type.isObject;
         var Native = global.Native = function(properties){
@@ -336,65 +330,9 @@ define(function(require, exports, module) {
             for (var i = 0; i < objects.length; i++) objects[i].implement(methods);
             return Native;
         };
-
         var arrayType = Array.type;
         Array.type = function(item){
             return instanceOf(item, Array) || arrayType(item);
-        };
-
-        global.$A = function(item){
-            return Array.from(item).slice();
-        };
-        global.$arguments = function(i){
-            return function(){
-                return arguments[i];
-            };
-        };
-        global.$chk = function(obj){
-            return !!(obj || obj === 0);
-        };
-        global.$clear = function(timer){
-            clearTimeout(timer);
-            clearInterval(timer);
-            return null;
-        };
-        global.$defined = function(obj){
-            return (obj != null);
-        };
-        global.$each = function(iterable, fn, bind){
-            var type = typeOf(iterable);
-            ((type == 'arguments' || type == 'collection' || type == 'array' || type == 'elements') ? Array : Object).each(iterable, fn, bind);
-        };
-        global.$empty = function(){};
-        global.$extend = function(original, extended){
-            return Object.append(original, extended);
-        };
-
-        global.$H = function(object){
-            return new Hash(object);
-        };
-        global.$merge = function(){
-            var args = Array.slice(arguments);
-            args.unshift({});
-            return Object.merge.apply(null, args);
-        };
-        global.$lambda = Function.from;
-        global.$mixin = Object.merge;
-        global.$random = Number.random;
-        global.$splat = Array.from;
-        global.$time = Date.now;
-        global.$type = function(object){
-            var type = typeOf(object);
-            if (type == 'elements') return 'array';
-            return (type == 'null') ? false : type;
-        };
-        global.$unlink = function(object){
-            switch (typeOf(object)){
-                case 'object': return Object.clone(object);
-                case 'array': return Array.clone(object);
-                case 'hash': return new Hash(object);
-                default: return object;
-            }
         };
     })(window);
 });

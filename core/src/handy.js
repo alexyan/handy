@@ -16,7 +16,7 @@ define(function(require, exports, module) {
         initialize:function(options){
             var that = this;
             window && (function(){
-                window.$U = Util;//global Util
+                window._ = Util;//global Util
             })();
             return that;
         }

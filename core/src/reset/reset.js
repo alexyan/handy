@@ -1,8 +1,32 @@
 /* reset.js */
 define(function(require, exports, module) {
     "use strict";
-    var U = require('../util/util');
     (function(global){
+        //typeOf,instanceof
+        var typeOf = global.typeOf = function(item) {
+            if (item == null) return 'null';
+            if (item.$family != null) return item.$family();
+            if (item.nodeName){
+                if (item.nodeType == 1) return 'element';
+                if (item.nodeType == 3) return (/\S/).test(item.nodeValue) ? 'textnode' : 'whitespace';
+            } else if (typeof item.length == 'number'){
+                if (item.callee) return 'arguments';
+                if ('item' in item) return 'collection';
+            }
+            return typeof item;
+            //return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+        };
+        var instanceOf = global.instanceOf = function(item, object){
+            if (item == null) return false;
+            var constructor = item.$constructor || item.constructor;
+            while (constructor){
+                if (constructor === object) return true;
+                constructor = constructor.parent;
+            }
+            return item instanceof object;
+        };      
+
+
         // Function overloading
         var Function = global.Function;
         var enumerables = true;
@@ -12,7 +36,7 @@ define(function(require, exports, module) {
             var self = this;
             return function(a, b){
                 if (a == null) return this;
-                if (usePlural || U.typeOf(a) != 'string'){
+                if (usePlural || typeOf(a) != 'string'){
                     for (var k in a) self.call(this, k, a[k]);
                     if (enumerables) for (var i = enumerables.length; i--;){
                         k = enumerables[i];
@@ -28,7 +52,7 @@ define(function(require, exports, module) {
             var self = this;
             return function(a){
                 var args, result;
-                if (U.typeOf(a) != 'string') args = a;
+                if (typeOf(a) != 'string') args = a;
                 else if (arguments.length > 1) args = arguments;
                 else if (usePlural) args = [a];
                 if (args){
@@ -49,13 +73,13 @@ define(function(require, exports, module) {
         // From
         var slice = Array.prototype.slice;
         Function.from = function(item){
-            return (U.typeOf(item) == 'function') ? item : function(){
+            return (typeOf(item) == 'function') ? item : function(){
                 return item;
             };
         };
         Array.from = function(item){
             if (item == null) return [];
-            return (Type.isEnumerable(item) && U.typeOf(item) != 'string') ? (U.typeOf(item) == 'array') ? item : slice.call(item) : [item];
+            return (Type.isEnumerable(item) && typeOf(item) != 'string') ? (typeOf(item) == 'array') ? item : slice.call(item) : [item];
         };
         Number.from = function(item){
             var number = parseFloat(item);
@@ -80,7 +104,7 @@ define(function(require, exports, module) {
             if (name){
                 var lower = name.toLowerCase();
                 var typeCheck = function(item){
-                    return (U.typeOf(item) == lower);
+                    return (typeOf(item) == lower);
                 };
                 Type['is' + name] = typeCheck;
                 if (object != null){
@@ -98,11 +122,11 @@ define(function(require, exports, module) {
 
         var toString = Object.prototype.toString;
         Type.isEnumerable = function(item){
-            return (item != null && U.typeOf(item.length) == 'number' && toString.call(item) != '[object Function]' );
+            return (item != null && typeOf(item.length) == 'number' && toString.call(item) != '[object Function]' );
         };
         var hooks = {};
         var hooksOf = function(object){
-            var type = U.typeOf(object.prototype);
+            var type = typeOf(object.prototype);
             return hooks[type] || (hooks[type] = []);
         };
         var implement = function(name, method){
@@ -110,13 +134,13 @@ define(function(require, exports, module) {
             var hooks = hooksOf(this);
             for (var i = 0; i < hooks.length; i++){
                 var hook = hooks[i];
-                if (U.typeOf(hook) == 'type') implement.call(hook, name, method);
+                if (typeOf(hook) == 'type') implement.call(hook, name, method);
                 else hook.call(this, name, method);
             }
             var previous = this.prototype[name];
             if (previous == null || !previous.$protected) this.prototype[name] = method;
 
-            if (this[name] == null && U.typeOf(method) == 'function') extend.call(this, name, function(item){
+            if (this[name] == null && typeOf(method) == 'function') extend.call(this, name, function(item){
                 return method.apply(item, slice.call(arguments, 1));
             });
         };
@@ -219,7 +243,7 @@ define(function(require, exports, module) {
 
         // Array & Object cloning, Object merging and appending
         var cloneOf = function(item){
-            switch (U.typeOf(item)){
+            switch (typeOf(item)){
                 case 'array': return item.clone();
                 case 'object': return Object.clone(item);
                 default: return item;
@@ -231,9 +255,9 @@ define(function(require, exports, module) {
             return clone;
         });
         var mergeOne = function(source, key, current){
-            switch (U.typeOf(current)){
+            switch (typeOf(current)){
                 case 'object':
-                    if (U.typeOf(source[key]) == 'object') Object.merge(source[key], current);
+                    if (typeOf(source[key]) == 'object') Object.merge(source[key], current);
                     else source[key] = Object.clone(current);
                 break;
                 case 'array': source[key] = current.clone(); break;
@@ -244,7 +268,7 @@ define(function(require, exports, module) {
 
         Object.extend({
             merge: function(source, k, v){
-                if (U.typeOf(k) == 'string') return mergeOne(source, k, v);
+                if (typeOf(k) == 'string') return mergeOne(source, k, v);
                 for (var i = 1, l = arguments.length; i < l; i++){
                     var object = arguments[i];
                     for (var key in object) mergeOne(source, key, object[key]);
@@ -277,7 +301,7 @@ define(function(require, exports, module) {
 
 
         var Hash = global.Hash = new Type('Hash', function(object){
-            if (U.typeOf(object) == 'hash') object = Object.clone(object.getClean());
+            if (typeOf(object) == 'hash') object = Object.clone(object.getClean());
             for (var key in object) this[key] = object[key];
             return this;
         });
@@ -338,7 +362,7 @@ define(function(require, exports, module) {
             return (obj != null);
         };
         global.$each = function(iterable, fn, bind){
-            var type = U.typeOf(iterable);
+            var type = typeOf(iterable);
             ((type == 'arguments' || type == 'collection' || type == 'array' || type == 'elements') ? Array : Object).each(iterable, fn, bind);
         };
         global.$empty = function(){};
@@ -360,12 +384,12 @@ define(function(require, exports, module) {
         global.$splat = Array.from;
         global.$time = Date.now;
         global.$type = function(object){
-            var type = U.typeOf(object);
+            var type = typeOf(object);
             if (type == 'elements') return 'array';
             return (type == 'null') ? false : type;
         };
         global.$unlink = function(object){
-            switch (U.typeOf(object)){
+            switch (typeOf(object)){
                 case 'object': return Object.clone(object);
                 case 'array': return Array.clone(object);
                 case 'hash': return new Hash(object);

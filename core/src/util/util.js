@@ -1,14 +1,21 @@
 /* util.js */
 define(function(require, exports, module) {
 	return {
-        //Fixing the JavaScript typeof operator
-        //Thanks to : 
-        //  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
+        //typeOf,instanceof
         typeOf : function(obj) {
-          return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+            if (item == null) return 'null';
+            if (item.$family != null) return item.$family();
+            if (item.nodeName){
+                if (item.nodeType == 1) return 'element';
+                if (item.nodeType == 3) return (/\S/).test(item.nodeValue) ? 'textnode' : 'whitespace';
+            } else if (typeof item.length == 'number'){
+                if (item.callee) return 'arguments';
+                if ('item' in item) return 'collection';
+            }
+            return typeof item;
+            //return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
         },
-        //Mootools instanceof
-        instanceof : function(item, object){
+        instanceOf : function(item, object){
             if (item == null) return false;
             var constructor = item.$constructor || item.constructor;
             while (constructor){

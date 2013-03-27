@@ -19,9 +19,8 @@ define(function(require, exports, module) {
             window && (function(){
                 window.$U = Util;//global Util
             })();
-
             return that;
         }
     });
-    module.exports = new Handy();
+    module.exports = new Handy;
 });

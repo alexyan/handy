@@ -46,6 +46,7 @@ AP._PageVar_ = AP._PageVar_ || {};
 seajs.config({
 	base:'http://assets.p76.alipay.net',
     alias: {
+    	'Handy': 'handy/core/0.9.0/handy'
     }
 });
 /**
@@ -62,7 +63,7 @@ seajs.config({
  * |____ ...
  * |____ App
  */
-seajs.use('http://assets.p76.alipay.net/handy/core/0.9.0/handy',function(Handy){
+seajs.use(['Handy'],function(Handy){
 	Handy.use("http://assets.p76.alipay.net/wap/cashier/1.0.0/gatewayCreditCardPayment",{
 		formOptions:{
             validatorOptions:{

@@ -5,9 +5,13 @@ define(function(require, exports, module) {
     var Util = Class.create({ 
         initialize:function(){
             var that = this;
+            //UA Detect
+            that.$D = require('./detect');
+
             that.$A = function(item){
                 return Array.from(item).slice();
             };
+            
             that.$arguments = function(i){
                 return function(){
                     return arguments[i];

@@ -21,6 +21,7 @@
   "license": "MIT",
   "output": {
     "util/util.js":["./util/util.js"],
+    "util/detect.js":["./util/detect.js"],
     "types/Number.js":["./types/Number.js"],
     "types/String.js":["./types/String.js"],
     "types/Array.js":["./types/Array.js"],

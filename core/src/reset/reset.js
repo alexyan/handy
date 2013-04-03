@@ -185,6 +185,7 @@ define(function(require, exports, module) {
 
             return force;
         };
+
         force('String', String, [
             'charAt', 'charCodeAt', 'concat', 'indexOf', 'lastIndexOf', 'match', 'quote', 'replace', 'search',
             'slice', 'split', 'substr', 'substring', 'trim', 'toLowerCase', 'toUpperCase'
@@ -320,6 +321,9 @@ define(function(require, exports, module) {
                 return length;
             }
         });
+
+
+
         Hash.alias('each', 'forEach');
         Object.type = Type.isObject;
         var Native = global.Native = function(properties){
@@ -334,5 +338,10 @@ define(function(require, exports, module) {
         Array.type = function(item){
             return instanceOf(item, Array) || arrayType(item);
         };
+        require('../types/Number.js');
+        require('../types/String.js');
+        require('../types/Array.js');
+        require('../types/Object.js');
+        require('../types/Function.js');
     })(window);
 });

@@ -21,6 +21,11 @@
   "license": "MIT",
   "output": {
     "util/util.js":["./util/util.js"],
+    "types/Number.js":["./types/Number.js"],
+    "types/String.js":["./types/String.js"],
+    "types/Array.js":["./types/Array.js"],
+    "types/Object.js":["./types/Object.js"],
+    "types/Function.js":["./types/Function.js"],
     "reset/reset.js":["./reset/reset.js"],
     "handy.js":["./handy.js"]
   }

@@ -46,13 +46,12 @@ AP._PageVar_ = AP._PageVar_ || {};
 seajs.config({
 	base:'http://assets.p76.alipay.net',
     alias: {
-    	'$': 'jquery/jquery/1.7.2/jquery',
     	'Handy': 'handy/core/0.9.0/handy'
     }
 });
 /**
  * seajs.use("handy",function(handy){
- *   handy.use("cashier",function(Cashier){
+ *   handy.app("cashier",function(Cashier){
  *   	...
  *   })
  * });
@@ -64,7 +63,7 @@ seajs.config({
  * |____ ...
  * |____ App
  */
-seajs.use(['Handy','$'],function(Handy,$){
+seajs.use(['Handy'],function(Handy){
 	Handy.app("http://assets.p76.alipay.net/wap/cashier/1.0.0/test",{
 	},function(){
 		var that = this;

@@ -32,6 +32,7 @@
     "reset/viewport.js":["./reset/viewport.js"],
     "base/options.js":["./base/options.js"],
     "base/base.js":["./base/base.js"],
-    "handy.js":["./handy.js"]
+    "handy.js":["./handy.js"],
+    "app.js":["./app.js"]
   }
 }

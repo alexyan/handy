@@ -10,7 +10,8 @@
     "dependencies": {
         "$"             : "$",
         "$-debug"       : "$-debug",
-        "class"         : "arale/class/1.0.0/class"
+        "class"         : "arale/class/1.0.0/class",
+        "app"           : "handy/core/0.9.0/app"
     },
     "output": {
         "util/util.js" : ["./util/util.js"],

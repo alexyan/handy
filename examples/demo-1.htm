@@ -65,10 +65,14 @@ seajs.config({
  */
 seajs.use(['Handy'],function(Handy){
 	Handy.setOptions({
+		//handy configuration
 		author:'Alex'
 	}).app("http://assets.p76.alipay.net/wap/cashier/1.0.0/app",{
+		extraUtil:'wap/cashier/1.0.0/util/util'
+		//app configuration
 	},function(){
-		var that = this;
+		//handy app callback;
+		var that = this, app = that.app;
 	});
 });
 </script>

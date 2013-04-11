@@ -321,9 +321,7 @@ define(function(require, exports, module) {
                 return length;
             }
         });
-
-
-
+        
         Hash.alias('each', 'forEach');
         Object.type = Type.isObject;
         var Native = global.Native = function(properties){

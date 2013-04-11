@@ -1,14 +1,11 @@
 /* App.js */
 define(function(require, exports, module) {
     "use strict";
-    var $ = require('$');
-    var AppBase = require('app');
-    var App = AppBase.extend({
-        options:{
-        },
+    var Base = require('./base/base');
+    var App = Base.extend({
         initialize:function(options){
             var that = this;
-            console.log('app base');
+            App.superclass.initialize.apply(that, [ options ]);
         }
     });
     module.exports = App;

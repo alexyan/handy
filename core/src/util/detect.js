@@ -1,5 +1,6 @@
+/* detect.js */
 define(function (require, exports, module) {
-
+    "use strict";
     var navigator = window.navigator,
     ua = navigator.userAgent,
     dummyStyle = document.createElement('div').style,

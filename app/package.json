@@ -1,0 +1,19 @@
+{
+    "name": "cashier",
+    "version": "1.0.0",
+    "root" : "wap",
+    "deploy": {
+        "server": "dev",
+        "host": "assets.p76.alipay.net",
+        "path": "/home/admin/wwwroot/assets/"
+    },
+    "dependencies": {
+        "$"             : "$",
+        "$-debug"       : "$-debug",
+        "class"         : "arale/class/1.0.0/class"
+    },
+    "output": {
+        "util/util.js" : ["./util/util.js"],
+        "app.js":"."
+    }
+}

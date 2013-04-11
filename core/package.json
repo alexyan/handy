@@ -13,6 +13,7 @@
     "url": "https://github.com/alexyan/handy/issues"
   },
   "dependencies": {
+      "$"             : "$",
       "class"         : "arale/class/1.0.0/class",
       "events"        : "arale/events/1.0.0/events",
       "json"          : "gallery/json/1.0.2/json",
@@ -28,6 +29,9 @@
     "types/Object.js":["./types/Object.js"],
     "types/Function.js":["./types/Function.js"],
     "reset/reset.js":["./reset/reset.js"],
+    "reset/viewport.js":["./reset/viewport.js"],
+    "base/options.js":["./base/options.js"],
+    "base/base.js":["./base/base.js"],
     "handy.js":["./handy.js"]
   }
 }

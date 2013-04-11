@@ -64,7 +64,9 @@ seajs.config({
  * |____ App
  */
 seajs.use(['Handy'],function(Handy){
-	Handy.app("http://assets.p76.alipay.net/wap/cashier/1.0.0/test",{
+	Handy.setOptions({
+		author:'Alex'
+	}).app("http://assets.p76.alipay.net/wap/cashier/1.0.0/app",{
 	},function(){
 		var that = this;
 	});

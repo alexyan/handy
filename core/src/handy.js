@@ -1,34 +1,28 @@
 /* handy.js */
 define(function(require, exports, module) {
     "use strict";
+    var $ = require('$');
     var Base = require('./base/base');
     var Util = require('./util/util');
-    //require('./reset/viewport');
-    var Class = require('class');
     var Handy = Base.extend({
         Implements:[ Util ],
-        app:function(app,options,callback){
+        app:function(appId,options,callback){
             var that = this;
-            seajs.use(app,function(App){
+
+            require.async([appId],function(App){
                 options.context = that;
                 that.app = new App(options);
                 "function" == that.$type(that.setup) && that.setup.call(that);
                 "function" == that.$type(callback) && callback.call(that);
             });
+
         },
         setup:function(){
             var that = this;
-
-            console.log(that.options,"that.options");
-        
-            //console.log(that.app,'that.app');
-            /*
-            var appId = that.app.__module.id;
-            seajs.use(seajs.pluginSDK.config.base + '/' + appId + '/util/util',function(){
-                "function" == that.$type(callback) && callback.call(that);
-            });
-            console.log('setup');
-            */
+            AP && AP.PageVar && (function(){
+                that.PageVar = _.$merge({},AP.PageVar,AP._PageVar_||{},AP.__PageVar__||{});
+            })();
+            return that;
         },
         initialize:function(options){
             var that = this;
@@ -39,5 +33,6 @@ define(function(require, exports, module) {
             return that;
         }
     });
-    module.exports = new Handy;
+    var handy = new Handy();
+    module.exports = handy;
 });

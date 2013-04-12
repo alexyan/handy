@@ -11,7 +11,13 @@
         "$"             : "$",
         "$-debug"       : "$-debug",
         "class"         : "arale/class/1.0.0/class",
-        "app"           : "handy/core/0.9.0/app"
+        "app"           : "handy/core/0.9.0/app",
+        "base"          : "handy/core/0.9.0/base/base",
+        "json"          : "gallery/json/1.0.2/json",
+        "orderDetail"   : "wap/public/1.0.0/controllers/orderDetail",
+        "shortcut"      : "wap/public/1.0.0/controllers/shortcut",
+        "securityProd"  : "wap/public/1.0.0/controllers/securityProd",
+        "select"        : "wap/public/1.0.0/ui/select"
     },
     "output": {
         "util/util.js" : ["./util/util.js"],

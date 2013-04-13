@@ -163,12 +163,10 @@ seajs.use(['$','Handy'],function($,Handy){
     //handy configuration
   }).app("wap/cashier/1.0.0/app",{
     //app configuration
-    paymentsOptions:{
-      payments:{
-        balancePayment:{
-          options:{
-            availableAmount:AP._PageVar_.balancePayment.availableAmount
-          }
+    paymentOptions:{
+      paymentsOptions:{
+        balancePaymentOptions:{
+          availableAmount:AP._PageVar_.balancePayment.availableAmount
         }
       }
     }

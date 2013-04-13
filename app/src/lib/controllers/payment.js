@@ -14,33 +14,33 @@ define(function(require, exports, module) {
     var ExpressPayment = require('./expressPayment');
     var Payment = Base.extend({
     	options:{
-            payments:{
-                couponPayment:{//红包支付
-                    options:{name:'红包支付'},
+            paymentsOptions:{
+                couponPaymentOptions:{//红包支付
+                    name:'红包支付',
                     constructor:function(domContext, options) {
                         return new CouponPayment(domContext, options);
                     }
                 },
-	            jfbPayment:{//集分宝支付
-                    options:{name:'集分宝支付'},
+	            jfbPaymentOptions:{//集分宝支付
+                    name:'集分宝支付',
                     constructor:function(domContext, options) {
                         return new JfbPayment(domContext, options);
                     }
                 },
-	            balancePayment:{//余额付款
-                    options:{name:'余额支付'},
+	            balancePaymentOptions:{//余额付款
+                    name:'余额支付',
                     constructor:function(domContext, options) {
                         return new BalancePayment(domContext, options);
                     }
                 },
-	            yltPayment:{//盈利通付款
-                    options:{name:'盈利通支付'},
+	            yltPaymentOptions:{//盈利通付款
+                    name:'盈利通支付',
                     constructor:function(domContext, options){
                         return new YltPayment(domContext, options);
                     }
                 },
-	            expressPayment:{//快捷支付含其他付款方式(网银、话费卡)、添加新卡等
-                    options:{name:'快捷支付'},
+	            expressPaymentOptions:{//快捷支付含其他付款方式(网银、话费卡)、添加新卡等
+                    name:'快捷支付',
                     constructor:function(domContext, options) {
                         return new ExpressPayment(domContext, options);
                     }
@@ -48,17 +48,18 @@ define(function(require, exports, module) {
             },
             onInit:function(){
                 var that = this;
-
                 that.payments = {};
                 $.each($('input.payment'),function(index,item){
                     var dataConf = $(item).data('conf').replace(/\'/g,'"');
                     dataConf = Json.parse(dataConf);
                     !!dataConf.model && (function(){
-                        that.options.payments[dataConf.model] 
-                        && 'object' == _.$type(that.options.payments[dataConf.model])
+                        that.options.paymentsOptions[dataConf.model + 'Options'] 
+                        && 'object' == _.$type(that.options.paymentsOptions[dataConf.model + 'Options'])
                         && (function(){
-                            var paymentOptions = that.options.payments[dataConf.model]['options'] || {};
-                            that.payments[dataConf.model] = that.options.payments[dataConf.model]['constructor'](item,paymentOptions);
+                            var paymentOptions = that.options.paymentsOptions[dataConf.model + 'Options'] || {};
+                            paymentOptions.$root = that.$root;
+                            that.payments[dataConf.model] = that.options.paymentsOptions[dataConf.model+'Options']['constructor'].apply(that,[item,paymentOptions]);
+                            that.payments[dataConf.model]['$parent'] = that;
                         })();
                     })();
                 });
@@ -70,6 +71,7 @@ define(function(require, exports, module) {
         initialize:function(options){
             var that = this;
             Payment.superclass.initialize.apply(that,[ options ]);
+            return that;
         }
     });
     module.exports = Payment;

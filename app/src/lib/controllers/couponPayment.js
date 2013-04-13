@@ -9,12 +9,17 @@ define(function(require, exports, module) {
     var Base = require('base');
     var CouponPayment = Base.extend({
         options:{
-
+            onInit:function(){
+                var that = this;
+            }
         },
         initialize:function(domContext,options){
             var that = this;
             that.domContext = domContext;
             CouponPayment.superclass.initialize.apply(that,[ options ]);
+            
+            that.payment = that.getParent();
+
         }
     });
     module.exports = CouponPayment;

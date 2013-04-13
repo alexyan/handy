@@ -6,7 +6,7 @@ define(function(require, exports, module) {
     //业务类
     var OrderDetail = require('orderDetail');
     var ShortCut = require('shortcut');
-    var Payments = require('./lib/controllers/payments');
+    var Payment = require('./lib/controllers/payment');
     var SecurityProd = require('securityProd');
     require('select').init();
     var App = AppBase.extend({
@@ -20,7 +20,7 @@ define(function(require, exports, module) {
                 /* 订单详情 */
                 that.orderDetail = new OrderDetail(that.options.orderDetailOptions || {}, that);
                 /* 组合支付 */
-                that.payments = new Payments(that.options.paymentsOptions||{});
+                that.payment = new Payment(that.options.paymentOptions||{});
                 /* securityProd */
                 that.securityProd = new SecurityProd({
                     element:"#paymentForm"
@@ -30,6 +30,7 @@ define(function(require, exports, module) {
         initialize:function(options){
             var that = this;
             App.superclass.initialize.apply(that, [ options ]);
+            console.log(that,'app');
         }
     });
     module.exports = App;

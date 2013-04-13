@@ -10,7 +10,8 @@ define(function(require, exports, module) {
             var that = this;
 
             require.async([appId],function(App){
-                options.context = that;
+                options.$root = that;
+                options.$parent = that;
                 that.app = new App(options);
                 "function" == that.$type(that.setup) && that.setup.call(that);
                 "function" == that.$type(callback) && callback.call(that);

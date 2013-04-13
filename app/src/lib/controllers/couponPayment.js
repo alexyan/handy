@@ -13,13 +13,13 @@ define(function(require, exports, module) {
                 var that = this;
             }
         },
-        initialize:function(domContext,options){
+        initialize:function(options){
             var that = this;
-            that.domContext = domContext;
+            that.domContext = options.domContext;
             CouponPayment.superclass.initialize.apply(that,[ options ]);
-            
-            that.payment = that.getParent();
 
+            that.payment = that.getParent();
+            console.log(that.payment,'that.payment');
         }
     });
     module.exports = CouponPayment;

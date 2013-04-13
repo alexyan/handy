@@ -13,13 +13,12 @@ define(function(require, exports, module) {
                 var that = this;
             }
         },
-        initialize:function(domContext,options){
+        initialize:function(options){
             var that = this;
-            that.domContext = domContext;
+            that.domContext = options.domContext;
             BalancePayment.superclass.initialize.apply(that,[ options ]);
 
             that.payment = that.getParent();
-
         }
     });
     module.exports = BalancePayment;

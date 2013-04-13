@@ -17,32 +17,32 @@ define(function(require, exports, module) {
             paymentsOptions:{
                 couponPaymentOptions:{//红包支付
                     name:'红包支付',
-                    constructor:function(domContext, options) {
-                        return new CouponPayment(domContext, options);
+                    constructor:function(options) {
+                        return new CouponPayment(options);
                     }
                 },
 	            jfbPaymentOptions:{//集分宝支付
                     name:'集分宝支付',
-                    constructor:function(domContext, options) {
-                        return new JfbPayment(domContext, options);
+                    constructor:function(options) {
+                        return new JfbPayment(options);
                     }
                 },
 	            balancePaymentOptions:{//余额付款
                     name:'余额支付',
-                    constructor:function(domContext, options) {
-                        return new BalancePayment(domContext, options);
+                    constructor:function(options) {
+                        return new BalancePayment(options);
                     }
                 },
 	            yltPaymentOptions:{//盈利通付款
                     name:'盈利通支付',
-                    constructor:function(domContext, options){
-                        return new YltPayment(domContext, options);
+                    constructor:function(options){
+                        return new YltPayment(options);
                     }
                 },
 	            expressPaymentOptions:{//快捷支付含其他付款方式(网银、话费卡)、添加新卡等
                     name:'快捷支付',
-                    constructor:function(domContext, options) {
-                        return new ExpressPayment(domContext, options);
+                    constructor:function(options) {
+                        return new ExpressPayment(options);
                     }
                 }
             },
@@ -57,17 +57,18 @@ define(function(require, exports, module) {
                         && 'object' == _.$type(that.options.paymentsOptions[dataConf.model + 'Options'])
                         && (function(){
                             var paymentOptions = that.options.paymentsOptions[dataConf.model + 'Options'] || {};
-                            paymentOptions.$root = that.$root;
-                            that.payments[dataConf.model] = that.options.paymentsOptions[dataConf.model+'Options']['constructor'].apply(that,[item,paymentOptions]);
-                            that.payments[dataConf.model]['$parent'] = that;
+                            paymentOptions = that.$root.$merge({},paymentOptions,{$root:that.$root,$parent:that,domContext:item});
+                            that.payments[dataConf.model] = that.options.paymentsOptions[dataConf.model+'Options']['constructor'].apply(that,[paymentOptions]);
                         })();
                     })();
                 });
-                console.log(that.payments,'that.payments');
             },
             onPreInit:function(){
             }
     	},
+        setPayment:function(){
+            console.log('setPayment');
+        },
         initialize:function(options){
             var that = this;
             Payment.superclass.initialize.apply(that,[ options ]);

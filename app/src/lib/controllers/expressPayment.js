@@ -14,9 +14,9 @@ define(function(require, exports, module) {
                 
             }
         },
-        initialize:function(domContext,options){
+        initialize:function(options){
             var that = this;
-            that.domContext = domContext;
+            that.domContext = options.domContext;
             ExpressPayment.superclass.initialize.apply(that,[ options ]);
 
             that.payment = that.getParent();

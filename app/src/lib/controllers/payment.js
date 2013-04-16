@@ -80,13 +80,7 @@ define(function(require, exports, module) {
                 $.each(that.options.paymentsOptions,function(key,paymentOption){
                     if(!_.$H(that.payments).getKeys().contains(key.replace('Options','')))delete that.options.paymentsOptions[key];
                 });
-                //
-                $.each(that.payments,function(key,payment){
-                    payment.init && (function(){
 
-                        payment.init();
-                    })();
-                });
             },
             onPreInit:function(){
             }        

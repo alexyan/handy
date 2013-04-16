@@ -95,7 +95,9 @@ define(function(require, exports, module) {
             var that = this;
             that.payment = payment;
             that.paymentHistory.push(that.payment);
-            if(that.paymentHistory.length>that.options.paymentHistoryLimit)delete that.paymentHistory[0];
+            if( that.paymentHistory.length > that.options.paymentHistoryLimit){
+                that.paymentHistory.shift();
+            }
             that.fireEvent('paymentChanged');
             return that;
         },

@@ -1,24 +1,22 @@
 /**
- * expressPayment.js
- * 快捷支付
+ * basePayment.js
  */
 define(function(require, exports, module) {
     "use strict";
     var $ = require('$'),
         Json = require('json');
     var Base = require('base');
-    var ExpressPayment = Base.extend({
+    var BasePayment = Base.extend({
         options:{
-            name:'快捷支付',
-            grade:1
         },
         init:function(){
         },        
         initialize:function(options,extra){
             var that = this;
-            ExpressPayment.superclass.initialize.apply(that,[ options, extra ]);
+            that.element = options.element;
+            BasePayment.superclass.initialize.apply(that,[ options, extra ]);
         }
     });
-    module.exports = ExpressPayment;
+    module.exports = BasePayment;
 });
 

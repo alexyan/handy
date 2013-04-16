@@ -6,14 +6,17 @@ define(function(require, exports, module) {
     var Util = require('./util/util');
     var Handy = Base.extend({
         Implements:[ Util ],
+        options:{
+            onInit:function(){
+                var that = this;
+            }
+        },
         app:function(appId,options,callback){
             var that = this;
-
+            
             require.async([appId],function(App){
-                options.$root = that;
-                options.$parent = that;
-                that.app = new App(options);
                 "function" == that.$type(that.setup) && that.setup.call(that);
+                that.app = new App(options,{$root:that,$parent:that});
                 "function" == that.$type(callback) && callback.call(that);
             });
 

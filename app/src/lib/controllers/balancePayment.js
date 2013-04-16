@@ -6,19 +6,18 @@ define(function(require, exports, module) {
     "use strict";
     var $ = require('$'),
         Json = require('json');
-    var Base = require('base');
-    var BalancePayment = Base.extend({
+    var BasePayment = require('./basePayment');
+    var BalancePayment = BasePayment.extend({
         options:{
-            onInit:function(){
-                var that = this;
-            }
-        },
-        initialize:function(options){
-            var that = this;
-            that.domContext = options.domContext;
-            BalancePayment.superclass.initialize.apply(that,[ options ]);
+            name:'余额支付',
+            grade:3
 
-            that.payment = that.getParent();
+        },
+        init:function(){
+        },
+        initialize:function(options,extra){
+            var that = this;
+            BalancePayment.superclass.initialize.apply(that,[ options, extra ]);
         }
     });
     module.exports = BalancePayment;

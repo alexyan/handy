@@ -2,60 +2,46 @@
 define(function(require, exports, module) {
     "use strict";
     require('../reset/reset');
-    var Class = require('class');
+    var Events = require('events');
     var removeOn = function(string){
         return string.replace(/^on([A-Z])/, function(full, first){
             return first.toLowerCase();
         });
     };
-    var Events = Class.create({ 
-        $events:{},
-        addEvent: function(type, fn, internal){
-            type = removeOn(type);
-            this.$events[type] = (this.$events[type] || []).include(fn);
-            if (internal) fn.internal = true;
-            return this;
-        },
-        addEvents: function(events){
-            for (var type in events) this.addEvent(type, events[type]);
-            return this;
-        },
-        fireEvent: function(type, args, delay){
-            type = removeOn(type);
-            var events = this.$events[type];
-            if (!events) return this;
-            args = Array.from(args);
-            events.each(function(fn){
-                if (delay) fn.delay(delay, this, args);
-                else fn.apply(this, args);
-            }, this);
-            return this;
-        },
-        removeEvent: function(type, fn){
-            type = removeOn(type);
-            var events = this.$events[type];
-            if (events && !fn.internal){
-                var index =  events.indexOf(fn);
-                if (index != -1) delete events[index];
-            }
-            return this;
-        },
-        removeEvents: function(events){
-            var type;
-            if (typeOf(events) == 'object'){
-                for (type in events) this.removeEvent(type, events[type]);
-                return this;
-            }
-            if (events) events = removeOn(events);
-            for (type in this.$events){
-                if (events && events != type) continue;
-                var fns = this.$events[type];
-                for (var i = fns.length; i--;) if (i in fns){
-                    this.removeEvent(type, fns[i]);
-                }
-            }
-            return this;
-        }
-    });
-    module.exports = Events;
+    Events.prototype.addEvent = function(type, fn, callback){
+        var that = this;
+        type = removeOn(type);
+        !!fn && 'function' == typeof(fn) && that.on(type,fn,callback);  
+        return this;            
+    };
+    Events.prototype.addEvents = function(events){
+        var that = this;            
+        $.each(events,function(type,fn){  
+            that.addEvent(type,fn)
+        });
+        return that;
+    };
+    Events.prototype.removeEvent = function(type,fn,context){
+        var that = this;
+        type = removeOn(type);
+        that.off(type,fn,context);
+        return that;
+    };
+    Events.prototype.removeEvents = function(){
+        var that = this;
+        that.off();
+        return that;        
+    };
+    Events.prototype.fireEvent = function(type,args){
+        var that = this;         
+        ['before' + type.capitalize(), type, 'after' + type.capitalize()].each(function(type,index){
+            !!that.__events[type] && (function(){
+                that.trigger(type,args);
+            })()
+        });
+        return that;    
+    };
+   
+    return Events;
+
 });

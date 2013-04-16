@@ -5,7 +5,6 @@ define(function(require, exports, module) {
     var Class = require('class');
     var Options = Class.create({ 
 		setOptions: function(){
-
 			var options = this.options = Object.merge.apply(null, [{}, this.options].append(arguments));
 			if (this.addEvent) for (var option in options){
 				if (typeOf(options[option]) != 'function' || !(/^on[A-Z]/).test(option)) continue;
@@ -15,13 +14,16 @@ define(function(require, exports, module) {
 			return this;
 		},
 		resetOptions:function(){
-			var options = this.options = this.__options__ || {};
+			var that = this;
+			that.options = Object.clone(that.__options||{});
+			Object.each(that.options,function(v,k){
+				if(/^on([A-Z])/.test(k)){
+					//console.log(k);
+					//delete that.options[k];
+				}
+			});
 			return this;
 		}
     });
     module.exports = Options;
 });
-
-
-
-

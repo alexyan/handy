@@ -18,6 +18,7 @@ g="autocomplete base calendar class cookie dialog easing events iframe-uploader 
 var AP = AP || {};
 AP.PageVar = AP.PageVar || {};
 AP._PageVar_ = AP._PageVar_ || {
+  "orderId":'5b464c006bbc911f1800434a5f7bc29d',
   "pay_amount":30,
   "couponPayment":{"availableAmount":20},
   "cashierSecurityPolicy":{"forceToValidate":false},
@@ -68,14 +69,14 @@ AP._PageVar_ = AP._PageVar_ || {
 
       
       <div class="ui-checkbox ui-checkbox-disabled">
-        <label><input type="checkbox" id="couponPayment" seed="payment-couponPayment" class="payment" data-conf="{'model':'couponPayment','showTxt':{'use':'使用红包付款：{payAmount}元','unuse':'可用红包：20.00元'}}" disabled /><span>可用红包：20.00元</span><div class="ui-icon icon-check"></div></label>
+        <label><input type="checkbox" id="couponPayment" seed="payment-couponPayment" class="payment" data-conf="{'model':'couponPayment','showTxt':{'use':'使用红包付款：{payAmount}元','unuse':'可用红包：20.00元'}}" disabled checked /><span>可用红包：20.00元</span><div class="ui-icon icon-check"></div></label>
       </div>
-        
+     
       <div class="ui-checkbox ui-checkbox-disabled">
-        <label><input type="checkbox" id="jfbPayment" seed="payment-jfbPayment" class="payment" data-conf="{'model':'jfbPayment','showTxt':{'use':'使用集分宝付款：{payPoint}个({payAmount}元)','unuse':'可用集分宝：2000个（20元）'}}" disabled /><span>可用集分宝：2000个（20元）</span><div class="ui-icon icon-check"></div></label>
+        <label><input type="checkbox" id="jfbPayment" seed="payment-jfbPayment" class="payment" data-conf="{'model':'jfbPayment','showTxt':{'use':'使用集分宝付款：{payPoint}个({payAmount}元)','unuse':'可用集分宝：2000个（20元）'}}" disabled checked /><span>可用集分宝：2000个（20元）</span><div class="ui-icon icon-check"></div></label>
       </div>
-
-
+      
+      <!--
       <div class="ui-checkbox ui-checkbox-disabled">
         <label>
           <input type="checkbox" id="balancePayment" seed="payment-balancePayment" class="payment" data-conf="{'model':'balancePayment','showTxt':{'use':'使用余额付款：{payAmount}元','unuse':'可用余额：30.00元'}}" disabled checked  />
@@ -118,6 +119,7 @@ AP._PageVar_ = AP._PageVar_ || {
         <div class="ui-field-message"></div>
         <div class="ui-field-error-message"></div>
       </div>
+      -->
       <div class="ui-button ui-button-submit ui-button-disabled">
         <button type="submit" disabled seed="payment-submit">确认付款</button>
       </div>
@@ -159,14 +161,18 @@ seajs.config({
  * |____ App
  */
 seajs.use(['$','Handy'],function($,Handy){
-  Handy.setOptions({
+  Handy/*.setOptions({
     //handy configuration
-  }).app("wap/cashier/1.0.0/app",{
+  })*/.app("wap/cashier/1.0.0/app",{
     //app configuration
     paymentOptions:{
+      payAmount:AP._PageVar_.pay_amount,
       paymentsOptions:{
-        balancePaymentOptions:{
-          availableAmount:AP._PageVar_.balancePayment.availableAmount
+        couponPaymentOptions:{
+          availableAmount:AP._PageVar_.couponPayment.availableAmount
+        },
+        jfbPaymentOptions:{
+          availableAmount:AP._PageVar_.jfbPayment.availableAmount
         }
       }
     }
@@ -174,6 +180,7 @@ seajs.use(['$','Handy'],function($,Handy){
     //handy app callback;
     var that = this, app = that.app;
     console.log(that,'Handy');
+    that.fireEvent('haha');
   });
 });
 </script>

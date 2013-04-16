@@ -109,6 +109,10 @@ define(function(require, exports, module) {
                     object.prototype.$family = (function(){
                         return lower;
                     }).hide();
+                    object.prototype.$root = (function(){
+                        console.log(this.$root);
+                        return this.$root;
+                    }).hide();
                 }
             }
             if (object == null) return null;

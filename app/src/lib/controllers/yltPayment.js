@@ -9,17 +9,14 @@ define(function(require, exports, module) {
     var Base = require('base');
     var YltPayment = Base.extend({
         options:{
-            onInit:function(){
-                var that = this;
-                
-            }
+            name:'盈利通支付'
         },
-        initialize:function(options){
-            var that = this;
-            that.domContext = options.domContext;
-            YltPayment.superclass.initialize.apply(that,[ options ]);
+        init:function(){
 
-            that.payment = that.getParent();
+        },    
+        initialize:function(options,extra){
+            var that = this;
+            YltPayment.superclass.initialize.apply(that,[ options, extra ]);
         }
     });
     module.exports = YltPayment;

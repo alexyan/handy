@@ -59,7 +59,6 @@ define(function(require, exports, module) {
 			return false;
 		},
 		/*</!ES5>*/
-
 		clean: function(){
 			return this.filter(function(item){
 				return item != null;

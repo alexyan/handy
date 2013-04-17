@@ -10,11 +10,13 @@ define(function(require, exports, module) {
     var JfbPayment = BasePayment.extend({
         options:{
             name:'集分宝支付',
+            key:'jfbPayment',
             grade:4,
 
             onAvailable:function(params){
                 var that = this;
                 that.available = true;
+
                 //console.log(that.element,'that.element');
                 $(that.element).prop("disabled", false);
                 $(that.element).closest('div.ui-checkbox').removeClass('ui-checkbox-disabled');
@@ -28,26 +30,35 @@ define(function(require, exports, module) {
             onUse:function(params){
                 var that = this;
                 var payment = that.payment.getPayment();
+                var totalAmount = that.payment.totalAmount;
 
-                var payAmount = 0;
-                if(that.options.availableAmount >= that.payment.options.payAmount ){
-                    payAmount = that.payment.options.payAmount;
+                var amountNeed2Pay = totalAmount;
+                _.$H(that.payment.payments).each(function(item,key){
+                    if(_.$H(payment).has(key) && item.options.grade > that.options.grade){
+                        amountNeed2Pay = amountNeed2Pay - payment[key];
+                    }
+                });
+            
+
+                var payAmount = amountNeed2Pay;
+                if(that.options.availableAmount >= payAmount ){
+                    payAmount = payAmount;
                 }else{
                     payAmount = that.options.availableAmount;
                 }
+
                 payment.jfbPayment = payAmount;
-                that.payment.setPayment.apply(that.payment,[payment,that]);
 
                 that.fireEvent('used',[params]);
+                that.payment.setPayment.apply(that.payment,[payment,that]);
             },
             onNotUse:function(params){
-                var that = this;
-
+                var that = this;                
                 var payment = that.payment.getPayment();
+
                 delete payment.jfbPayment;
-                //that.payment.setPayment(payment,that);
-                that.payment.setPayment.apply(that.payment,[payment,that]);
                 that.fireEvent('notUsed',[params]);
+                that.payment.setPayment.apply(that.payment,[payment,that]);
             },
             onUsed:function(params){
                 var that = this;
@@ -56,7 +67,8 @@ define(function(require, exports, module) {
                 $(that.element).closest('div.ui-checkbox').addClass('ui-checkbox-checked');
                 var payment = that.payment.getPayment();
                 var showTxtUse = that.options.dataConf.showTxt.use.substitute({
-                    payAmount:payment.jfbPayment
+                    payAmount:payment.jfbPayment,
+                    payPoint:that.amount2point(payment.jfbPayment)
                 });
                 $(that.element).closest('label').find('span').html(showTxtUse);
             },
@@ -69,7 +81,15 @@ define(function(require, exports, module) {
             },
             onReset:function(params){
                 var that = this;
-                if(that.options.availableAmount){
+                var payment = that.payment.getPayment(),
+                tempPayment = Object.clone(payment);
+                _.$H(tempPayment).each(function(item,key){
+                    if(that.payment.payments[key]['options']['grade'] <= that.options.grade){
+                        delete tempPayment[key]; 
+                    }
+                });
+
+                if(that.options.availableAmount && !that.payment.isPaymentFullAmount(tempPayment)){
                     that.fireEvent('available',[params]);
                 }else{
                     that.fireEvent('notAvailable',[params]);
@@ -88,12 +108,21 @@ define(function(require, exports, module) {
                 }
             },
             onInit:function(){
-                var that = this;
             }
+        },
+        point2amount:function(point){//集分宝兑RMB
+            var that = this;
+            return that.payment.fixed(point / 100,'str');
+        },
+        amount2point:function(amount){//RMB兑集分宝
+            var that = this;
+            return parseInt(amount * 100.00);
         },
         init:function(){
             var that = this;
+
             that.payment = that.$parent;
+
 
             /**
              * 参数说明:
@@ -111,8 +140,8 @@ define(function(require, exports, module) {
 
             $(that.element).closest('div.ui-checkbox').find('span.ui-icon').bind('click',function(){
                 $(that.element).trigger('click');
-            });            
-        },        
+            });  
+        },          
         initialize:function(options,extra){
             var that = this;
             JfbPayment.superclass.initialize.apply(that,[ options, extra ]);

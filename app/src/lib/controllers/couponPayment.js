@@ -11,11 +11,13 @@ define(function(require, exports, module) {
     var CouponPayment = BasePayment.extend({
         options:{
             name:'红包支付',
+            key:'couponPayment',
             grade:5,
 
             onAvailable:function(params){
                 var that = this;
                 that.available = true;
+
                 $(that.element).prop("disabled", false);
                 $(that.element).closest('div.ui-checkbox').removeClass('ui-checkbox-disabled');
             },
@@ -42,7 +44,6 @@ define(function(require, exports, module) {
             },
             onNotUse:function(params){
                 var that = this;
-
                 var payment = that.payment.getPayment();
                 delete payment.couponPayment;
                 //that.payment.setPayment(payment,that);
@@ -59,10 +60,6 @@ define(function(require, exports, module) {
                     payAmount:payment.couponPayment
                 });
                 $(that.element).closest('label').find('span').html(showTxtUse);
-
-
-
-
             },
             onNotUsed:function(params){
                 var that = this;
@@ -73,7 +70,14 @@ define(function(require, exports, module) {
             },
             onReset:function(params){
                 var that = this;
-                if(that.options.availableAmount){
+                var payment = that.payment.getPayment(),
+                tempPayment = Object.clone(payment);
+                _.$H(tempPayment).each(function(item,key){
+                    if(that.payment.payments[key]['options']['grade'] <= that.options.grade){
+                        delete tempPayment[key]; 
+                    }
+                });
+                if(that.options.availableAmount && !that.payment.isPaymentFullAmount(tempPayment)){
                     that.fireEvent('available',[params]);
                 }else{
                     that.fireEvent('notAvailable',[params]);
@@ -82,7 +86,7 @@ define(function(require, exports, module) {
             onCheck:function(params){
                 var that = this;
                 that.fireEvent('reset',[params]);
-                console.log(that.payment,'that.payment','onCheck');
+
                 if(that.available){
                     if($(that.element).prop('checked')){
                         that.fireEvent('use',[params]);
@@ -92,11 +96,13 @@ define(function(require, exports, module) {
                 }
             },
             onInit:function(){
-                var that = this;
+
+
             }
         },
         init:function(){
             var that = this;
+
             that.payment = that.$parent;
 
             /**
@@ -116,7 +122,7 @@ define(function(require, exports, module) {
             $(that.element).closest('div.ui-checkbox').find('span.ui-icon').bind('click',function(){
                 $(that.element).trigger('click');
             });
-        },     
+        },
         initialize:function(options,extra){
             var that = this;
             CouponPayment.superclass.initialize.apply(that,[ options, extra ]);

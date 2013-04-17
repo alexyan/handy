@@ -34,8 +34,8 @@ define(function(require, exports, module) {
     };
     Events.prototype.fireEvent = function(type,args){
         var that = this;         
-        ['before' + type.capitalize(), type, 'after' + type.capitalize()].each(function(type,index){
-            !!that.__events[type] && (function(){
+        if(type) ['before' + type.capitalize(), type, 'after' + type.capitalize()].each(function(type,index){
+            !!that.__events && !!that.__events[type] && (function(){
                 that.trigger(type,args);
             })()
         });

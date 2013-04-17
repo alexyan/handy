@@ -8,9 +8,7 @@ define(function(require, exports, module) {
     var Base = require('base');
     var BasePayment = Base.extend({
         options:{
-        },
-        init:function(){
-        },        
+        },      
         initialize:function(options,extra){
             var that = this;
             that.element = options.element;

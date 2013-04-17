@@ -166,6 +166,16 @@ define(function(require, exports, module) {
 				hex.push((bit.length == 1) ? '0' + bit : bit);
 			}
 			return (array) ? hex : '#' + hex.join('');
+		},
+		min: function(){
+			return Math.min.apply({},this);
+		},
+		max: function(){
+			return Math.max.apply({},this);
+		},
+		sum :function(){
+			return (! this.length) ? 0 : this.slice(1).sum() +
+			      ((typeof this[0] == 'number') ? this[0] : 0);			
 		}
 
 	});

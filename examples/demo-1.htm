@@ -23,7 +23,7 @@ AP._PageVar_ = AP._PageVar_ || {
   "couponPayment":{"availableAmount":20},
   "cashierSecurityPolicy":{"forceToValidate":false},
   "sdkUtil":{"confirmUrl":"&action=clear_bind&tid=&userId=2088102010079411"},
-  "jfbPayment":{"availableAmount":2000},
+  "jfbPayment":{"availableAmount":15},
   "balancePayment":{"availableAmount":30},
   "yltPayment":{"availableAmount":30}
 };
@@ -73,13 +73,12 @@ AP._PageVar_ = AP._PageVar_ || {
       </div>
      
       <div class="ui-checkbox ui-checkbox-disabled">
-        <label><input type="checkbox" id="jfbPayment" seed="payment-jfbPayment" class="payment" data-conf="{'model':'jfbPayment','showTxt':{'use':'使用集分宝付款：{payPoint}个({payAmount}元)','unuse':'可用集分宝：2000个（20元）'}}" disabled checked /><span>可用集分宝：2000个（20元）</span><div class="ui-icon icon-check"></div></label>
+        <label><input type="checkbox" id="jfbPayment" seed="payment-jfbPayment" class="payment" data-conf="{'model':'jfbPayment','showTxt':{'use':'使用集分宝付款：{payPoint}个({payAmount}元)','unuse':'可用集分宝：1500个（15元）'}}" disabled checked/><span>可用集分宝：3000个（30元）</span><div class="ui-icon icon-check"></div></label>
       </div>
       
-      <!--
       <div class="ui-checkbox ui-checkbox-disabled">
         <label>
-          <input type="checkbox" id="balancePayment" seed="payment-balancePayment" class="payment" data-conf="{'model':'balancePayment','showTxt':{'use':'使用余额付款：{payAmount}元','unuse':'可用余额：30.00元'}}" disabled checked  />
+          <input type="checkbox" id="balancePayment" seed="payment-balancePayment" class="payment" data-conf="{'model':'balancePayment','showTxt':{'use':'使用余额付款：{payAmount}元','unuse':'可用余额：30.00元'}}" disabled   />
           <span>可用余额：30.00元</span>
           <div class="ui-icon icon-check"></div>
         </label>
@@ -87,13 +86,13 @@ AP._PageVar_ = AP._PageVar_ || {
       
       <div class="ui-checkbox ui-checkbox-disabled">
         <label>
-          <input type="checkbox" id="yltPayment" seed="payment-yltPayment" class="payment" data-conf="{'model':'yltPayment','showTxt':{'use':'使用盈利通付款：{payAmount}元','unuse':'可用盈利通：30.00元'}}" disabled checked  />
+          <input type="checkbox" id="yltPayment" seed="payment-yltPayment" class="payment" data-conf="{'model':'yltPayment','showTxt':{'use':'使用盈利通付款：{payAmount}元','unuse':'可用盈利通：30.00元'}}" disabled   />
           <span>可用盈利通：30.00元</span>
           <div class="ui-icon icon-check"></div>
         </label>
       </div>      
       
-
+      <!--
       <div class="ui-checkbox ui-checkbox-naked ui-checkbox-disabled">
         <label>
         <input id="expressPayment" seed="payment-expressPayment" class="payment" type="checkbox" data-conf="{'model':'expressPayment','showTxt':{'use':'使用银行卡付款:{payAmount}元','unuse':'快捷支付（含卡通）'}}" disabled />
@@ -173,6 +172,12 @@ seajs.use(['$','Handy'],function($,Handy){
         },
         jfbPaymentOptions:{
           availableAmount:AP._PageVar_.jfbPayment.availableAmount
+        },
+        balancePaymentOptions:{
+          availableAmount:AP._PageVar_.balancePayment.availableAmount
+        },
+        yltPaymentOptions:{
+          availableAmount:AP._PageVar_.yltPayment.availableAmount
         }
       }
     }

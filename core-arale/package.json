@@ -1,0 +1,24 @@
+{
+  "family": "handy",
+  "name": "core",
+  "version": "0.9.0",
+  "description": "移动Web开发应用架构",
+  "author": "Denis;Alex",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:alexyan/handy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexyan/handy/issues"
+  },
+  "spm": {
+    "output": [
+      "handy.js",
+      "base/base.js"
+    ],
+    "alias": {
+      "$": "handy/jquto/1.0.0/jquto",
+      "base": "arale/base/1.0.1/base"
+    }
+  }
+}

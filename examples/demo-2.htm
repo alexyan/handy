@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="HandheldFriendly" content="true"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0;" name="viewport"/>
+  <meta content="yes" name="apple-mobile-web-app-capable"/>
+  <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <meta content="email=no" name="format-detection"/>
+  <link charset="utf-8" type="text/css" href="http://assets.p76.alipay.net/??handy/base-ui/1.0.0/base-ui.css,handy/page-transitions/1.0.0/css/page-transitions.css,wap/cashier/1.0.0/cashier-full.css,wap/mcashier/1.0.0/mcashier.css" rel="stylesheet"/>
+  <script charset="utf-8" id="seajsnode" src="https://a.alipayobjects.com/??seajs/1.3.1/sea.js"></script>
+  <script>
+    (function () {
+      function f(a) {
+        var a = a.replace("#", ""), b = a.split("/"), c = b.length;
+        if (4 === c) {
+          c = b[0];
+          b = b[1];
+          if ("alipay" === c || "gallery" === c)return a;
+          if ("arale" === c && -1 < d.indexOf(e, b))return a.replace("arale/", "gallery/")
+        } else if (3 === c) {
+          b = b[0];
+          if (-1 < d.indexOf(e, b))return"gallery/" + a;
+          if (-1 < d.indexOf(g, b))return"arale/" + a
+        }
+        return a
+      }
+
+      var e = "async backbone coffee cookie es5-safe handlebars iscroll jasmine jasmine-jquery jquery jquery-color json keymaster labjs less marked moment mustache querystring raphael socketio store swfobject underscore zepto ztree".split(" "),
+        g = "autocomplete base calendar class cookie dialog easing events iframe-uploader iframe-shim messenger overlay popup position select switchable tip validator widget".split(" "), d = seajs.pluginSDK.util;
+      seajs.config({alias: {$: "gallery/jquery/1.8.2/jquery", "$-debug": "gallery/jquery/1.8.2/jquery-debug", jquery: "gallery/jquery/1.8.2/jquery"}});
+      var h = seajs.use;
+      seajs.use = function (a, b) {
+        "string" === typeof a && (a = [a]);
+        a = d.map(a, function (a) {
+          return f(a)
+        });
+        return h(a, b)
+      }
+    })();
+  </script>
+  <script type="text/javascript" charset="utf-8">
+    var AP = AP || {};
+    AP.PageVar = AP.PageVar || {};
+    AP._PageVar_ = AP._PageVar_ || {
+      "orderId": '5b464c006bbc911f1800434a5f7bc29d',
+      "pay_amount": 30,
+      "couponPayment": {"availableAmount": 20},
+      "cashierSecurityPolicy": {"forceToValidate": false},
+      "sdkUtil": {"confirmUrl": "&action=clear_bind&tid=&userId=2088102010079411"},
+      "jfbPayment": {"availableAmount": 15},
+      "balancePayment": {"availableAmount": 30},
+      "yltPayment": {"availableAmount": 30}
+    };
+  </script>
+  <title>支付宝</title>
+</head>
+<body>
+<div data-role="page" class="ui-page ui-page-active">
+  <!--CMS 系统公告 开始-->
+
+  <!-- CMS:wapcashier/common/st_cashier_announces.vm开始:wapcashier/common/cashier_announces.vm -->
+  <div class="ui-notice">
+    <p>这是触屏版收银台首页。</p>
+  </div>
+  <!-- CMS:wapcashier/common/st_cashier_announces.vm结束:wapcashier/common/cashier_announces.vm --> <!--CMS 系统公告 结束-->
+  <!--CMS 系统公告 结束-->
+  <div data-role="header" class="ui-header">
+    <h1><img alt="Alipay" src="https://i.alipayobjects.com/e/201303/2U8xHkMbfp.png" width="93" height="30"/></h1>
+  </div>
+
+  <div data-role="content" class="ui-content">
+    <div class="product ui-caption ui-collapsible ui-collapsible-handle">
+      <p data-item="商品">麻雀要革命</p>
+      <p data-item="来自" class="ui-collapsible-content" style="display:none">纯测试（测试）</p>
+      <p id="realPayAmount" data-item="应付总价"><span class="price">30.00元</span></p>
+      <span class="ui-icon icon-arrow"></span></div>
+    <form id="paymentForm" name="paymentForm" data-role="form" class="ui-form" action="http://wapcashier-1-1.ui.alipay.net/cashier/trade_payment.htm?orderId=5b464c006bbc911f1800434a5f7bc29d&amp;awid=IiCvD91GYRnIobFbyciY9cJcKonRb7mcashier" method="post" autocomplete="off">
+      <input type="hidden" name="_form_token" value="Z4u3XITtfrYoh9V85jWm2OZvfENJwvmj"/>
+      <input type="hidden" name="orderId" value="5b464c006bbc911f1800434a5f7bc29d"/>
+      <input type="hidden" name="pay_amount" value="30.00"/>
+      <input type="hidden" name="coupon_amount" value="0"/>
+      <input type="hidden" name="point_amount" value="0"/>
+      <input type="hidden" name="balance_to_pay" value="0"/>
+      <input type="hidden" name="kj_amount" value="0"/>
+      <input type="hidden" name="payType" value="pay"/>
+      <input type="hidden" name="action" value="pay"/>
+      <fieldset>
+        <h2>支付宝账户：嘻嘻嘻（13913913917）</h2>
+      </fieldset>
+      <div class="ui-checkbox ui-checkbox-disabled">
+        <label><input type="checkbox" id="couponPayment" seed="payment-couponPayment" class="payment" data-conf="{'model':'couponPayment','showTxt':{'use':'使用红包付款：{payAmount}元','unuse':'可用红包：20.00元'}}" disabled checked/><span>可用红包：20.00元</span>
+
+          <div class="ui-icon icon-check"></div>
+        </label>
+      </div>
+
+      <div class="ui-checkbox ui-checkbox-disabled">
+        <label><input type="checkbox" id="jfbPayment" seed="payment-jfbPayment" class="payment" data-conf="{'model':'jfbPayment','showTxt':{'use':'使用集分宝付款：{payPoint}个({payAmount}元)','unuse':'可用集分宝：1500个（15元）'}}" disabled checked/><span>可用集分宝：3000个（30元）</span>
+
+          <div class="ui-icon icon-check"></div>
+        </label>
+      </div>
+
+      <div class="ui-checkbox ui-checkbox-disabled">
+        <label>
+          <input type="checkbox" id="balancePayment" seed="payment-balancePayment" class="payment" data-conf="{'model':'balancePayment','showTxt':{'use':'使用余额付款：{payAmount}元','unuse':'可用余额：30.00元'}}" disabled/>
+          <span>可用余额：30.00元</span>
+
+          <div class="ui-icon icon-check"></div>
+        </label>
+      </div>
+
+      <div class="ui-checkbox ui-checkbox-disabled">
+        <label>
+          <input type="checkbox" id="yltPayment" seed="payment-yltPayment" class="payment" data-conf="{'model':'yltPayment','showTxt':{'use':'使用盈利通付款：{payAmount}元','unuse':'可用盈利通：30.00元'}}" disabled/>
+          <span>可用盈利通：30.00元</span>
+
+          <div class="ui-icon icon-check"></div>
+        </label>
+      </div>
+
+      <!--
+      <div class="ui-checkbox ui-checkbox-naked ui-checkbox-disabled">
+        <label>
+        <input id="expressPayment" seed="payment-expressPayment" class="payment" type="checkbox" data-conf="{'model':'expressPayment','showTxt':{'use':'使用银行卡付款:{payAmount}元','unuse':'快捷支付（含卡通）'}}" disabled />
+        <span>银行卡付款</span>
+        <div class="ui-icon icon-check"></div>
+        </label>
+      </div>
+      <div class="ui-field ui-select">
+        <div class="ui-select-input"> <span class="ui-select-text"></span>
+          <select id="savedCardList" name="channelToken" disabled seed="payment-savedCardList">
+            <option data-attr="{'isShowDiscount':false,'text':'中国工商银行储蓄卡**9012'}"
+                           value="XfHFHt0AqkMG1ddVNdzR7HF65_1P6NLprkTuYDvVqHjtjwq5tAkSN9CprHGT00KpKKuUy1Pc2Z0DpEKIMvoegJOoOEknShfBm3iJJK1S1UbFSfaO">中国工商银行储蓄卡**9012</option>
+            <option data-attr="{'isShowDiscount':false,'text':'中国工商银行储蓄卡**8824'}"
+                           value="XfHFHt0AqkMG1ddVNdzR7HF65_1P6NLprkTuYDg8l9QgVzO7hXEFbvoO6tAYZjuBbOqnZrwDSCeYAUYQ-V2ITirVZcKBD8FnKCmTmNKCZms--PUl">中国工商银行储蓄卡**8824</option>
+            <option data-attr="{'isShowDiscount':false,'text':'中国工商银行储蓄卡**8999'}"
+                           value="XfHFHt0AqkMG1ddVNdzR7HF65_1P6NLprkTuYDvVqHjsgQ5pv2S4MElz1Rf7kPeXa6lFbyayDxI2KsbW5kV8ApQhB7wrVIFdoStS2U4X70UtG1s1">中国工商银行储蓄卡**8999</option>
+            <option data-attr="{'isShowDiscount':false,'text':'中国工商银行储蓄卡**8955'}"
+                           value="XfHFHt0AqkMG1ddVNdzR7HF65_1P6NLprkTuYDvVqHjtjwq5tAkSN9CmgVh2p_gNo1cPwkmyv7AyZq7MceCmy4UFeIpbNPoWBf6DxyfuRE5e6v1q">中国工商银行储蓄卡**8955</option>
+            <option data-attr="{'isShowDiscount':false,'payType':'newCard','text':'添加新银行卡'}" value="newCard">添加新银行卡</option>
+            <option data-attr="{'showTxt':{'use':'使用其他付款方式：{payAmount}元','unuse':'其他付款方式'},'payType':'otherWay','text':'使用其他付款方式'}" value="otherWay">使用其他付款方式</option>
+          </select>
+          <span class="ui-icon icon-arrow"></span> </div>
+        <div class="ui-field-message"></div>
+        <div class="ui-field-error-message"></div>
+      </div>
+      -->
+      <div class="ui-button ui-button-submit ui-button-disabled">
+        <button type="submit" disabled seed="payment-submit">确认付款</button>
+      </div>
+    </form>
+  </div>
+  <div>
+    <a href="http://wapcashier-1-1.ui.alipay.net/cashier/exCashier.htm?awid=IiCvD91GYRnIobFbyciY9cJcKonRb7mcashier&orderId=5b464c006bbc911f1800434a5f7bc29d&theme=st">体验标准版</a>(供开发，测试环境使用，线上不存在)
+  </div>
+  <div id='J_um_mob' style="display:none"></div>
+  <div data-role="footer" class="ui-footer">版权所有 &copy; 2004-2013 支付宝</div>
+  <div style="color:#f2f2f2;font:12px arial;text-align:center;">wapcashier-1-1.ui.alipay.net</div>
+</div>
+<div id="shortcut" class="fixed ui-icon"></div>
+<div id="shortcut-panel" class="fixed">
+  <li class="passback">
+    <a href="http://wap.stable.alipay.net/user/findPayPass.htm?action=retrievePayPwUI&awid=IiCvD91GYRnIobFbyciY9cJcKonRb7mcashier"><span class="ui-icon"></span>找回密码</a>
+  </li>
+  <li class="payfor ui-disabled">
+    <a href="http://wap.stable.alipay.net/personal/applyPeerPay.htm?tradeNo=2013041121542441&awid=IiCvD91GYRnIobFbyciY9cJcKonRb7mcashier"><span class="ui-icon"></span>找人代付</a>
+  </li>
+  <li class="refresh ui-disabled"><a href="#"><span class="ui-icon"></span>刷新订单</a></li>
+  <li class="about">
+    <a data-transition="slide" data-state="false" href="http://wapcashier-1-1.ui.alipay.net/cashier/product_sign.htm?orderId=5b464c006bbc911f1800434a5f7bc29d&awid=IiCvD91GYRnIobFbyciY9cJcKonRb7mcashier"><span class="ui-icon"></span>产品签名</a>
+  </li>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+  seajs.config({
+    base: 'http://assets.p76.alipay.net',
+    alias: {
+      'base': 'arale/base/1.0.1/base',
+      'handy-base': 'http://127.0.0.1/dev/handyjs/alexyan-handy/core-arale/src/base.js',
+      'handy-util': 'http://127.0.0.1/dev/handyjs/alexyan-handy/core-arale/src/util.js',
+      'widget': 'arale/widget/1.0.2/widget',
+      'json': 'gallery/json/1.0.2/json',
+      'select': 'wap/public/1.0.0/ui/select'
+    }
+  });
+  /**
+   * seajs.use("handy",function(handy){
+ *   handy.app("cashier",function(Cashier){
+ *   	...
+ *   })
+ * });
+   *
+   * Handy
+   * |____ Reset
+   * |____ Util
+   * |____ PageVar
+   * |____ ...
+   * |____ App
+   */
+  seajs.use(['$', '../core-arale/src/handy'], function ($, Handy) {
+    Handy/*.setOptions({
+     //handy configuration
+     })*/.app("../../app-arale/src/app", {
+        //app configuration
+        paymentOptions: {
+          payAmount: AP._PageVar_.pay_amount,
+          couponPaymentOptions: {
+            availableAmount: AP._PageVar_.couponPayment.availableAmount
+          },
+          jfbPaymentOptions: {
+            availableAmount: AP._PageVar_.jfbPayment.availableAmount
+          },
+          balancePaymentOptions: {
+            availableAmount: AP._PageVar_.balancePayment.availableAmount
+          },
+          yltPaymentOptions: {
+            availableAmount: AP._PageVar_.yltPayment.availableAmount
+          }
+        }
+      }, function () {
+        //handy app callback;
+        var that = this, app = that.app;
+        that.trigger('haha');
+      });
+  });
+</script>
+</body>
+</html>
+
+
+
+

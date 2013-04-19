@@ -1,18 +1,29 @@
-/* util.js */
-define(function(require, exports, module) {
-    var Class = require('class');
-    var Util = Class.create({ 
-        fixed:function(n, type){
-            //默认保留两位小数
-            //((0.58+0.00000001)*100 | 0) / 100
-            var n = Math.round(n * 100) / 100;
-            type == 'str' ? n = (n).toFixed(2) : null;
-            return n;
-        },
-        initialize:function(){
-            var that = this;
-            console.log('app util');
-        }
-    });
-    module.exports = new Util;
+/* handy.js */
+define(function (require, exports, module) {
+  "use strict";
+  var $ = require('$'), Util = {}, O = {}, S = {}, A = {};
+
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+  $.extend(O, {
+    keys: function (object) {
+      var keys = [];
+      for (var key in object) {
+        if (hasOwnProperty.call(object, key)) keys.push(key);
+      }
+      return keys;
+    }
+  });
+  Util.Object = O;
+  $.extend(S, {
+    substitute: function (str, object, regexp) {
+      return String(str).replace(regexp || (/\\?\{([^{}]+)\}/g), function (match, name) {
+        if (match.charAt(0) == '\\') return match.slice(1);
+        return (object[name] != null) ? object[name] : '';
+      });
+    }
+  });
+  Util.String = S;
+
+  return Util;
 });

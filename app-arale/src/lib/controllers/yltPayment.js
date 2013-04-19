@@ -4,8 +4,7 @@
  */
 define(function (require, exports, module) {
   "use strict";
-  var $ = require('$'),
-    Json = require('json');
+  var $ = require('$');
   var BasePayment = require('./basePayment');
   var YltPayment = BasePayment.extend({
     attrs: {
@@ -65,7 +64,7 @@ define(function (require, exports, module) {
       that.element.prop('checked', true);
       that.element.closest('div.ui-checkbox').addClass('ui-checkbox-checked');
       var payment = that.payment.getPayment();
-      var showTxtUse = String.substitute(that.get('dataConf').showTxt.use, {
+      var showTxtUse = that.root.get('Util').String.substitute(that.get('dataConf').showTxt.use, {
         payAmount: payment.yltPayment
       });
       that.element.closest('label').find('span').html(showTxtUse);

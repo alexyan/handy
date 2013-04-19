@@ -16,35 +16,7 @@ define(function (require, exports, module) {
       /* 组合支付 */
       new Payment(this.get('paymentOptions'), this);
       new SecurityProd({ element: "#paymentForm" }, this);
-      /* securityProd */
-      //      this.securityProd = new SecurityProd({
-      //        element: "#paymentForm"
-      //      });
-
     }
   });
-  //  var App = Base.extend({
-  //    options: {
-  //      onPreInit: function () {
-  //      },
-  //      onInit: function () {
-  //        var that = this;
-  //        //console.log(that.options);
-  //        //console.log('initialize....');
-  //        /* 订单详情 */
-  //        //that.orderDetail = new OrderDetail(that.options.orderDetailOptions || {}, that);
-  //        /* 组合支付 */
-  //        that.payment = new Payment(that.options.paymentOptions || {}, {$root: that.$root, $parent: that});
-  //        /* securityProd */
-  //        that.securityProd = new SecurityProd({
-  //          element: "#paymentForm"
-  //        }, {$root: that.$root, $parent: that});
-  //      }
-  //    },
-  //    initialize: function (options, extra) {
-  //      var that = this;
-  //      App.superclass.initialize.apply(that, [ options, extra ]);
-  //    }
-  //  });
   return App;
 });

@@ -5,6 +5,7 @@
 define(function (require, exports, module) {
   "use strict";
   var $ = require('$');
+  var Util = require('');
   var BasePayment = require('./basePayment');
   var BalancePayment = BasePayment.extend({
     attrs: {
@@ -63,7 +64,7 @@ define(function (require, exports, module) {
       that.element.prop('checked', true);
       that.element.closest('div.ui-checkbox').addClass('ui-checkbox-checked');
       var payment = that.payment.getPayment();
-      var showTxtUse = String.substitute(that.get('dataConf').showTxt.use, {
+      var showTxtUse = that.root.get('Util').String.substitute(that.get('dataConf').showTxt.use, {
         payAmount: payment.balancePayment
       });
       that.element.closest('label').find('span').html(showTxtUse);

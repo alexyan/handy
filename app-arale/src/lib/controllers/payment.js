@@ -7,9 +7,7 @@ define(function (require, exports, module) {
   var $ = require('$');
   var HandyBase = require('handy-base');
 
-  require('handy-util');
   var JSON = require('json');
-  var Object = window.Object;
   var hasOwnProperty = Object.prototype.hasOwnProperty;
 
   var CouponPayment = require('./couponPayment');
@@ -160,7 +158,7 @@ define(function (require, exports, module) {
     },
     getUpperGradePayments: function (payment) {
       var that = this;
-      var keys = Object.keys(payment);
+      var keys = that.root.get('Util').Object.keys(payment);
       var grades = [];
       keys.each(function (key) {
         grades.push(that.payments[key].get('grade'));
@@ -177,7 +175,7 @@ define(function (require, exports, module) {
     },
     getRestPayments: function (payment, triggerPayment) {
       var that = this;
-      var keys = Object.keys(payment);
+      var keys = that.root.get('Util').Object.keys(payment);
       var grades = [];
       $.each(keys, function (i, key) {
         grades.push(that.payments[key].get('grade'));
@@ -193,7 +191,7 @@ define(function (require, exports, module) {
     },
     getLowestPaymentGrade: function (payment) {
       var that = this;
-      var keys = Object.keys(payment);
+      var keys = that.root.get('Util').Object.keys(payment);
       var grades = [];
 
       $.each(keys, function (i, key) {

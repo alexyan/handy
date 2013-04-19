@@ -6,7 +6,6 @@ define(function (require, exports, module) {
   "use strict";
   var $ = require('$');
   var BasePayment = require('./basePayment');
-  //var Base = require('base');
   var CouponPayment = BasePayment.extend({
     attrs: {
       name: '红包支付',
@@ -55,7 +54,7 @@ define(function (require, exports, module) {
       that.element.prop('checked', true);
       that.element.closest('div.ui-checkbox').addClass('ui-checkbox-checked');
       var payment = that.payment.getPayment();
-      var showTxtUse = String.substitute(that.get('dataConf').showTxt.use, {
+      var showTxtUse = that.root.get('Util').String.substitute(that.get('dataConf').showTxt.use, {
         payAmount: payment.couponPayment
       });
       that.element.closest('label').find('span').html(showTxtUse);

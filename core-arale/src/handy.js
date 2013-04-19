@@ -14,8 +14,11 @@ define(function (require, exports, module) {
         var app = new App(options, that, that);
         callback && callback.call(app);
       });
+      return this;
     }
   });
 
-  return new Handy();
+  return function (configs) {
+    return new Handy(configs);
+  };
 });

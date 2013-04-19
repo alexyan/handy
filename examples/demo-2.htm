@@ -184,6 +184,7 @@
       'handy-util': 'http://127.0.0.1/dev/handyjs/alexyan-handy/core-arale/src/util.js',
       'widget': 'arale/widget/1.0.2/widget',
       'json': 'gallery/json/1.0.2/json',
+      '_': 'gallery/underscore/1.4.4/underscore',
       'select': 'wap/public/1.0.0/ui/select'
     }
   });
@@ -201,10 +202,11 @@
    * |____ ...
    * |____ App
    */
-  seajs.use(['$', '../core-arale/src/handy'], function ($, Handy) {
-    Handy/*.setOptions({
-     //handy configuration
-     })*/.app("../../app-arale/src/app", {
+  seajs.use(['$', '../core-arale/src/handy', 'json', '_'], function ($, Handy, JSON, _) {
+    Handy({
+      JSON: JSON,
+      _: _
+    }).app("../../app-arale/src/app", {
         //app configuration
         paymentOptions: {
           payAmount: AP._PageVar_.pay_amount,
@@ -222,9 +224,7 @@
           }
         }
       }, function () {
-        //handy app callback;
-        var that = this, app = that.app;
-        that.trigger('haha');
+        console.log(this);
       });
   });
 </script>

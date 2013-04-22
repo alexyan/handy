@@ -1,9 +1,9 @@
 /* handy.js */
 define(function (require, exports, module) {
   "use strict";
-  var $ = require('$'), Base = require('base');
+  var $ = require('$'), HandyBase = require('./base');
 
-  var Handy = Base.extend({
+  var Handy = HandyBase.extend({
     setup: function () {
       //把PageVar挂在root上
       this.PageVar = $.extend({}, AP._PageVar_, AP.__PageVar__);
@@ -11,7 +11,7 @@ define(function (require, exports, module) {
     app: function (id, options, callback) {
       var that = this;
       require.async(id, function (App) {
-        var app = new App(options, that, that);
+        var app = new App(options, that);
         callback && callback.call(app);
       });
       return this;

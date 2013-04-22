@@ -1,9 +1,9 @@
 /* handy.js */
 define(function (require, exports, module) {
   "use strict";
-  var $ = require('$'), HandyBase = require('./base');
+  var $ = require('$'), Base = require('base');
 
-  var Handy = HandyBase.extend({
+  var Handy = Base.extend({
     setup: function () {
       //把PageVar挂在root上
       this.PageVar = $.extend({}, AP._PageVar_, AP.__PageVar__);

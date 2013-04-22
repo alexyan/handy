@@ -7,7 +7,7 @@ define(function (require, exports, module) {
     initialize: function (config, parent, root) {
       HandyBase.superclass.initialize.call(this, config);
       this.parent = parent;
-      this.root = parent && (root || parent.root);
+      this.root = root || parent.root || parent;
       this.setup();
     },
     setup: $.noop

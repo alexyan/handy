@@ -1,17 +1,17 @@
 /**
- * balancePayment.js
- * 余额支付
+ * creditPayment.js
+ * 信用支付
  */
 define(function (require, exports, module) {
   "use strict";
   var $ = require('$');
   var UtilString = require('../../util/string');
   var BasePayment = require('./basePayment');
-  var BalancePayment = BasePayment.extend({
+  var CreditPayment = BasePayment.extend({
     attrs: {
-      name: '余额支付',
-      key: 'balancePayment',
-      grade: 4
+      name: '信用支付',
+      key: 'creditPayment',
+      grade: 2
     },
     onUse: function () {
       var availableAmount = this.get('availableAmount'),
@@ -22,24 +22,24 @@ define(function (require, exports, module) {
       } else {
         payAmount = availableAmount;
       }
-      this.getPaymentsCache().balancePayment = payAmount;
+      this.getPaymentsCache().creditPayment = payAmount;
 
       this.trigger('used');
     },
     onNotUse: function () {
       var paymentsCache = this.getPaymentsCache();
 
-      delete paymentsCache.balancePayment;
+      delete paymentsCache.creditPayment;
       this.trigger('notUsed');
     },
     onUsed: function () {
-      BalancePayment.superclass.onUsed.call(this);
+      CreditPayment.superclass.onUsed.call(this);
       var showTxtUse = UtilString.substitute(this.get('dataConf').showTxt.use, {
-        payAmount: this.getPaymentsCache().balancePayment
+        payAmount: this.getPaymentsCache().creditPayment
       });
       this.element.closest('label').find('span').html(showTxtUse);
     }
   });
-  return BalancePayment;
-});
 
+  return CreditPayment;
+});

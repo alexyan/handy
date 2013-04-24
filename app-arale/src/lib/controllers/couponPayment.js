@@ -11,7 +11,7 @@ define(function (require, exports, module) {
     attrs: {
       name: '红包支付',
       key: 'couponPayment',
-      grade: 5
+      grade: 6
     },
     onUse: function () {
       var availableAmount = this.get('availableAmount'),

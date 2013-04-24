@@ -45,13 +45,14 @@
     AP.PageVar = AP.PageVar || {};
     AP._PageVar_ = AP._PageVar_ || {
       "orderId": '5b464c006bbc911f1800434a5f7bc29d',
-      "pay_amount": 10,
+      "pay_amount": 50,
       "couponPayment": {"availableAmount": 5},
       "cashierSecurityPolicy": {"forceToValidate": false},
       "sdkUtil": {"confirmUrl": "&action=clear_bind&tid=&userId=2088102010079411"},
       "jfbPayment": {"availableAmount": 15},
       "balancePayment": {"availableAmount": 30},
-      "yltPayment": {"availableAmount": 30}
+      "yltPayment": {"availableAmount": 30},
+      "creditPayment": {"availableAmount": 500}
     };
   </script>
   <title>支付宝</title>
@@ -116,6 +117,14 @@
         <label>
           <input type="checkbox" id="yltPayment" seed="payment-yltPayment" class="payment" data-conf="{'model':'yltPayment','showTxt':{'use':'使用盈利通付款：{payAmount}元','unuse':'可用盈利通：30.00元'}}" disabled/>
           <span>可用盈利通：30.00元</span>
+
+          <div class="ui-icon icon-check"></div>
+        </label>
+      </div>
+      <div class="ui-checkbox ui-checkbox-disabled">
+        <label>
+          <input type="checkbox" id="creditPayment" seed="payment-creditPayment" class="payment" data-conf="{'model':'creditPayment','showTxt':{'use':'使用信用额度付款：{payAmount}元','unuse':'可用信用额度：500.00元'}}" disabled/>
+          <span>可用信用额度：500.00元</span>
 
           <div class="ui-icon icon-check"></div>
         </label>
@@ -216,6 +225,9 @@
           },
           yltPaymentOptions: {
             availableAmount: AP._PageVar_.yltPayment.availableAmount
+          },
+          creditPaymentOptions: {
+            availableAmount: AP._PageVar_.creditPayment.availableAmount
           }
         }
       }, function () {

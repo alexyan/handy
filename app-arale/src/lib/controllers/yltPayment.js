@@ -11,7 +11,7 @@ define(function (require, exports, module) {
     attrs: {
       name: '盈利通支付',
       key: 'yltPayment',
-      grade: 2
+      grade: 3
     },
     onUse: function () {
       var availableAmount = this.get('availableAmount'),

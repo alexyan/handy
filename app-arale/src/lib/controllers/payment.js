@@ -14,6 +14,7 @@ define(function (require, exports, module) {
   var JfbPayment = require('./jfbPayment');
   var BalancePayment = require('./balancePayment');
   var YltPayment = require('./yltPayment');
+  var CreditPayment = require('./creditPayment');
   var ExpressPayment = require('./expressPayment');
 
   var UtilObject = require('../../util/object');
@@ -98,6 +99,8 @@ define(function (require, exports, module) {
           return new BalancePayment(options, this);
         case 'yltPayment':
           return new YltPayment(options, this);
+        case 'creditPayment':
+          return new CreditPayment(options, this);
         case 'expressPayment':
           return new ExpressPayment(options, this);
         default:

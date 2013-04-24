@@ -11,7 +11,7 @@ define(function (require, exports, module) {
     attrs: {
       name: '集分宝支付',
       key: 'jfbPayment',
-      grade: 4
+      grade: 5
     },
     onUse: function () {
       var availableAmount = this.get('availableAmount'),

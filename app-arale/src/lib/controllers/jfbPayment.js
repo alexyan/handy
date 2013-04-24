@@ -39,7 +39,7 @@ define(function (require, exports, module) {
         payAmount: paymentsCache.jfbPayment,
         payPoint: parseInt(paymentsCache.jfbPayment * 100)
       });
-      this.element.closest('label').find('span').html(showTxtUse);
+      this.element.next('span').html(showTxtUse);
     }
   });
   return JfbPayment;

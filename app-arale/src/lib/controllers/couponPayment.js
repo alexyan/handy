@@ -37,7 +37,7 @@ define(function (require, exports, module) {
       var showTxtUse = UtilString.substitute(this.get('dataConf').showTxt.use, {
         payAmount: this.getPaymentsCache().couponPayment
       });
-      this.element.closest('label').find('span').html(showTxtUse);
+      this.element.next('span').html(showTxtUse);
     }
   });
 

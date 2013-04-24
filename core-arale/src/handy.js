@@ -18,7 +18,5 @@ define(function (require, exports, module) {
     }
   });
 
-  return function (configs) {
-    return new Handy(configs);
-  };
+  return new Handy();
 });

@@ -16,6 +16,8 @@ define(function (require, exports, module) {
   var YltPayment = require('./yltPayment');
   var ExpressPayment = require('./expressPayment');
 
+  var UtilObject = require('../../util/object');
+
   function sumObject(object) {
     var total = 0;
     for (var key in object) {
@@ -38,167 +40,152 @@ define(function (require, exports, module) {
   }
 
   var Payment = HandyBase.extend({
-    attrs: {
-      paymentHistoryLimit: 3
-    },
-    couponPaymentCreate: function (options, parent) {
-      return new CouponPayment(options, parent);
-    },
-    jfbPaymentCreate: function (options, parent) {
-      return new JfbPayment(options, parent);
-    },
-    balancePaymentCreate: function (options, parent) {
-      return new BalancePayment(options, parent);
-    },
-    yltPaymentCreate: function (options, parent) {
-      return new YltPayment(options, parent);
-    },
-    expressPaymentCreate: function (options, parent) {
-      return new ExpressPayment(options, parent);
-    },
     setup: function () {
       var that = this;
-      //console.log(that.options);
-      //console.log(that.$root.PageVar);
-      //orderId
-      that.orderId = that.root.PageVar.orderId;
-      //console.log(that.orderId);
-      that.totalAmount = that.root.PageVar.pay_amount;
+      this.orderId = this.root.PageVar.orderId;
+      this.totalAmount = this.root.PageVar.pay_amount;
 
       //支付方式,用数组,记录历史操作记录,可用于回退操作
-      that.paymentHistory = [
-        {}
-      ];
+      //this.paymentHistory = [];
       //当前的支付方式
-      that.payment = that.paymentHistory[that.paymentHistory.length - 1];
-      //console.log(that.payment,'that.payment');
+      //this.payment = this.paymentHistory[this.paymentHistory.length - 1];
 
       //payments对象,存放当前交易所支持的支付方式
-      that.payments = {};
-
+      this.payments = {};
+      //存放当前使用的支付方式以及支付的Amount
+      this.paymentsCache = {};
+      //遍历页面上支持的支付类型
       $.each($('input.payment'), function (index, item) {
-        var dataConf = JSON.parse($(item).data('conf').replace(/\'/g, '"'));
+        var dataConf = JSON.parse(($(item).data('conf') || '{}').replace(/'/g, '"'));
         var modelOptions = that.get(dataConf.model + 'Options');
-        !!dataConf.model && (function () {
-          modelOptions && 'object' == $.type(modelOptions)
-          && (function () {
-            var paymentOptions = modelOptions || {};
-            $.extend(paymentOptions, {element: item, dataConf: dataConf});
-
-            that.payments[dataConf.model] = that[dataConf.model + 'Create'](paymentOptions, that);
-          })();
-        })();
-      });
-      //      //实例中不存在的支付方式删除
-      //      $.each(that.options.paymentsOptions, function (key, paymentOption) {
-      //        if (!_.$H(that.payments).getKeys().contains(key.replace('Options', '')))delete that.options.paymentsOptions[key];
-      //      });
-
-      $.each(that.payments, function (key, payment) {
-        payment.init && payment.init();
+        that.payments[dataConf.model] = that._paymentCreate(dataConf.model, $.extend({
+          element: item,
+          dataConf: dataConf
+        }, modelOptions))
       });
 
+      this.on('paymentChanged', this.onPaymentChanged);
+      this.init();
     },
-    paymentChanged: function (triggerPayment) {
+    /**
+     * 初始化各支付方式
+     */
+    init: function () {
       var that = this;
-      setTimeout(function () {
-        var payment = that.getPayment();
-        //console.log(payment,'payment');
-        var restPayments = that.getRestPayments(payment, triggerPayment);
-        //var lowestPaymentGrade = that.getLowestPaymentGrade(payment);
-        $.each(restPayments, function (i, restPayment) {
-          if (payment[restPayment]) {
-            that.payments[restPayment].trigger('check');
-            //return false;
-          } else {
-            setTimeout(function () {
-              var lowestPaymentGrade = that.getLowestPaymentGrade(payment);
-              if (that.payments[restPayment].get('grade') < lowestPaymentGrade) {
-                if (that.isPaymentFullAmount()) {
-                  that.payments[restPayment].trigger('notAvailable');
-                } else {
-                  that.payments[restPayment].trigger('available');
-                }
-              }
-            }, 0);
-          }
-        });
-      }, 0);
+      var payments = this.sortPaymentsByGrade();
+      $.each(payments, function (i, payment) {
+        if (that.isPaymentFullAmount() || payment.get('availableAmount') == 0) {
+          payment.trigger('notAvailable').trigger('notUse');
+        } else {
+          payment.trigger('available').trigger('use');
+        }
+      });
     },
-    setPayment: function (payment, triggerPayment) {
-      var that = this;
-      that.payment = payment;
-      that.paymentHistory.push(that.payment);
-      if (that.paymentHistory.length > that.get('paymentHistoryLimit')) {
-        that.paymentHistory.shift();
+    /**
+     * 返回支付类型实例
+     * @param model
+     * @param options
+     * @returns {*}
+     * @private
+     */
+    _paymentCreate: function (model, options) {
+      switch (model) {
+        case 'couponPayment':
+          return new CouponPayment(options, this);
+        case 'jfbPayment':
+          return new JfbPayment(options, this);
+        case 'balancePayment':
+          return new BalancePayment(options, this);
+        case 'yltPayment':
+          return new YltPayment(options, this);
+        case 'expressPayment':
+          return new ExpressPayment(options, this);
+        default:
+          return null;
       }
-      that.paymentChanged(triggerPayment);
-      return that;
     },
-    getPayment: function () {
-      var that = this;
-      return that.payment || {};
-    },
-    getPaymentAmount: function (payment) {
-      var that = this;
-    },
-    getPaymentHistory: function () {
-      var that = this;
-      return that.paymentHistory || [];
-    },
-    isPaymentFullAmount: function (payment) {//检查是否足额支付
-      var that = this;
-      var payment = payment || that.getPayment();
-
-      if (sumObject(payment) >= that.totalAmount) {
+    /**
+     * 是否已足额支付
+     * @param payments
+     * @returns {boolean}
+     */
+    isPaymentFullAmount: function (payments) {//检查是否足额支付
+      if (sumObject(payments || this.paymentsCache) >= this.totalAmount) {
         return true;
       } else {
         return false;
       }
     },
-    getUpperGradePayments: function (payment) {
+    /**
+     * 去掉当前payment后，还需要支付的余额
+     * @returns {number}
+     */
+    getUsableAmount: function (currentPayment) {
       var that = this;
-      var keys = that.root.get('Util').Object.keys(payment);
-      var grades = [];
-      keys.each(function (key) {
-        grades.push(that.payments[key].get('grade'));
+      var currentAmount = 0;
+      $.each(this.paymentsCache, function (model, amount) {
+        if (currentPayment.get('grade') < that.payments[model].get('grade'))
+          currentAmount += amount;
       });
-      var minGrade = getMin(grades);
-      var maxGrade = getMax(grades);
-      var upperGradePayments = [];
-      $.each(that.payments, function (key, payment) {
-        if (payment.get('grade') >= minGrade && payment.get('grade') <= maxGrade) {
-          upperGradePayments.push(key);
-        }
-      });
-      return upperGradePayments;
+      return this.get('payAmount') - currentAmount;
     },
-    getRestPayments: function (payment, triggerPayment) {
+    /**
+     * 获取最低grade配置
+     * @returns {*}
+     */
+    getLowestPaymentGrade: function () {
       var that = this;
-      var keys = that.root.get('Util').Object.keys(payment);
-      var grades = [];
-      $.each(keys, function (i, key) {
-        grades.push(that.payments[key].get('grade'));
-      });
-      var triggerPaymentGrade = triggerPayment.get('grade');
-      var restPayments = [];
-      $.each(that.payments, function (key, payment) {
-        if (payment.get('grade') < triggerPaymentGrade) {
-          restPayments.push(key);
-        }
-      });
-      return restPayments;
-    },
-    getLowestPaymentGrade: function (payment) {
-      var that = this;
-      var keys = that.root.get('Util').Object.keys(payment);
-      var grades = [];
+      var keys = UtilObject.keys(this.paymentsCache);
+      var lowestPaymentGrade = Number.POSITIVE_INFINITY;
 
       $.each(keys, function (i, key) {
-        grades.push(that.payments[key].get('grade'));
+        var grade = that.payments[key].get('grade');
+        if (grade < lowestPaymentGrade)
+          lowestPaymentGrade = grade;
       });
-      return getMin(grades);
+
+      return lowestPaymentGrade;
+    },
+    /**
+     * payments状态变更后触发。
+     */
+    onPaymentChanged: function () {
+      var that = this;
+      var grades = this.sortPaymentsByGrade();
+      var payAmount = 0;
+
+      $.each(grades, function (i, payment) {
+        var availableAmount = payment.get('availableAmount');
+        if (payment.used) {
+          if (payAmount < that.totalAmount) {
+            payment.trigger('available').trigger('use');
+          } else {
+            payment.trigger('notAvailable').trigger('notUse');
+          }
+          payAmount += availableAmount;
+        } else {
+          if (payAmount < that.totalAmount && 0 < availableAmount) {
+            payment.trigger('available');
+          } else {
+            payment.trigger('notAvailable');
+          }
+        }
+      });
+    },
+    /**
+     * 根据grade配置，从高到低排序
+     * @returns {*}
+     */
+    sortPaymentsByGrade: function () {
+      var grades = [];
+      $.each(this.payments, function (model, payment) {
+        grades.push(payment);
+      });
+      return grades.sort(function (prev, next) {
+        return next.get('grade') - prev.get('grade');
+      });
     }
   });
+
   return Payment;
 });

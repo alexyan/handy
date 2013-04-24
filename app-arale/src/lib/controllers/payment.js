@@ -112,7 +112,7 @@ define(function (require, exports, module) {
      * @param payments
      * @returns {boolean}
      */
-    isPaymentFullAmount: function (payments) {//检查是否足额支付
+    isPaymentFullAmount: function (payments) {
       if (sumObject(payments || this.paymentsCache) >= this.totalAmount) {
         return true;
       } else {

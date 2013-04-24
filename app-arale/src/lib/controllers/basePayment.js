@@ -8,6 +8,15 @@ define(function (require, exports, module) {
   var UtilString = require('../../util/string');
 
   var BasePayment = HandyBase.extend({
+    setup: function () {
+      var that = this;
+      this.element = $(this.get('element'));
+      this.initEvents();
+
+      this.element.on('click', function () {
+        that.trigger('check');
+      });
+    },
     initEvents: function () {
       this.on('available', this.onAvailable);
       this.on('notAvailable', this.onNotAvailable);
@@ -16,22 +25,6 @@ define(function (require, exports, module) {
       this.on('used', this.onUsed);
       this.on('notUsed', this.onNotUsed);
       this.on('check', this.onCheck);
-    },
-    setup: function () {
-      var that = this;
-      this.element = $(this.get('element'));
-      this.initEvents();
-      /**
-       * 参数说明:
-       * 1、active:用户主动行为,比如点击;初始化时也设置为主动触发.
-       * 主动行为可以处理完毕后通知pay对象向其它方式发起check事件
-       * 2、silent: 静默执行, 比如初始化是需要主动触发,但是静默操作设置为true,
-       * 那么可以屏蔽一些ui上的行为
-       * 3、init: 标示初始化行为
-       */
-      this.element.on('click', function () {
-        that.trigger('check');
-      });
     },
     onCheck: function () {
       if (this.available) {

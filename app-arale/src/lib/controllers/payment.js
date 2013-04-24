@@ -62,7 +62,7 @@ define(function (require, exports, module) {
         that.payments[dataConf.model] = that._paymentCreate(dataConf.model, $.extend({
           element: item,
           dataConf: dataConf
-        }, modelOptions))
+        }, modelOptions));
       });
 
       this.on('paymentChanged', this.onPaymentChanged);

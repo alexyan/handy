@@ -76,9 +76,9 @@ define(function (require, exports, module) {
       var payments = this.sortPaymentsByGrade();
       $.each(payments, function (i, payment) {
         if (that.isPaymentFullAmount() || payment.get('availableAmount') == 0) {
-          payment.trigger('notAvailable').trigger('notUse');
+          payment.trigger('notUse').trigger('notAvailable');
         } else {
-          payment.trigger('available').trigger('use');
+          payment.trigger('use').trigger('available');
         }
       });
     },

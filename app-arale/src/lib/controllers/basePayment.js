@@ -86,8 +86,7 @@ define(function (require, exports, module) {
       this.used = false;
 
       this.element.prop('checked', false)
-        .closest('label')
-        .find('span')
+        .next('span')
         .text(this.get('dataConf').showTxt.unuse)
         .end()
         .closest('.ui-checkbox')

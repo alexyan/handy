@@ -26,7 +26,7 @@ define(function (require, exports, module) {
         var selectedOption = $(this.options[this.selectedIndex]);
         var dataConf = JSON.parse((selectedOption.data('conf') || '{}').replace(/'/g, '"'));
         var dataAttrs = JSON.parse((selectedOption.data('attrs') || '{}').replace(/'/g, '"'));
-        $.extend(that.get('dataConf'), dataConf);
+        $.extend(true, that.get('dataConf'), dataConf);
         $.each(dataAttrs, function (key, attr) {
           that.set(key, attr);
         });
@@ -52,9 +52,9 @@ define(function (require, exports, module) {
       var showTxtUse = UtilString.substitute(this.get('dataConf').showTxt.use, {
         payAmount: this.getPaymentsCache().expressPayment
       });
+      this.element.next('span').html(showTxtUse);
       var uiCheckbox = this.element.closest('div.ui-checkbox');
       var uiSelect = uiCheckbox.next('.ui-select');
-      this.element.closest('label').find('span').html(showTxtUse);
       uiSelect.removeClass('ui-select-disabled').find('select').prop('disabled', false);
     },
     onNotUsed: function () {

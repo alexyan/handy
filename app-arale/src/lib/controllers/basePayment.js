@@ -15,14 +15,12 @@ define(function (require, exports, module) {
       this.on('notUse', this.onNotUse);
       this.on('used', this.onUsed);
       this.on('notUsed', this.onNotUsed);
-      this.on('reset', this.onReset);
       this.on('check', this.onCheck);
     },
     setup: function () {
       var that = this;
       this.element = $(this.get('element'));
       this.initEvents();
-      //this.payment = that.parent;
       /**
        * 参数说明:
        * 1、active:用户主动行为,比如点击;初始化时也设置为主动触发.
@@ -34,12 +32,8 @@ define(function (require, exports, module) {
       this.element.on('click', function () {
         that.trigger('check');
       });
-
-      //this.trigger('check', {active: true, silent: true, init: true});
     },
     onCheck: function () {
-      //this.trigger('reset');
-
       if (this.available) {
         if (this.element.prop('checked')) {
           this.trigger('use');
@@ -49,17 +43,6 @@ define(function (require, exports, module) {
         this.parent.trigger('paymentChanged');
       }
     },
-//    onReset: function () {
-//      var that = this,
-//        grade = that.get('grade');
-//
-//      //有availableAmount配置，并且已经足额支付了，禁用当前支付方式
-//      if (that.get('availableAmount') && that.parent.isPaymentFullAmount()) {
-//        that.trigger('notAvailable');
-//      } else {
-//        that.trigger('available');
-//      }
-//    },
     onAvailable: function () {
       if (!this.available) {
         this.available = true;
